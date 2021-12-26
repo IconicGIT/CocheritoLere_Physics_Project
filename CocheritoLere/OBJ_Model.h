@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include "OBJ_Loader.h"
 #include "p2List.h"
 
@@ -44,11 +45,12 @@ public:
 		return id;
 	}
 
-	void RenderModel(int modelID, float x, float y, float z, float colR, float colG, float colB, float alpha, float scale = 1.0f);
+	void RenderModel(int modelID, float x, float y, float z, float colR, float colG, float colB, float alpha, float scale = 1.0f, bool wireframe = false);
 
 
 	
 
 private:
 	p2List<objl::Loader> models;
+
 };
