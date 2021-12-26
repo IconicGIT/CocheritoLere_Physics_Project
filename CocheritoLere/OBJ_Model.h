@@ -35,7 +35,7 @@ public:
 		}
 		else
 		{
-			LOG("Could not load model.");
+			LOG("Could not load model. ");
 			return -1;
 		}
 		

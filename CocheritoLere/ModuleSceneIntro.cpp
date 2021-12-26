@@ -22,7 +22,7 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
-	cube = App->modelLoader->LoadModel("Assets/Models/base_plane.obj");
+	cube = App->modelLoader->LoadModel("Assets/Models/full_train.obj");
 	pyramid = App->modelLoader->LoadModel("Assets/Models/pyramid.obj");
 	tracks = App->modelLoader->LoadModel("Assets/Models/tracks.obj");
 	train = App->modelLoader->LoadModel("Assets/Models/full_train.obj");
@@ -65,10 +65,10 @@ update_status ModuleSceneIntro::Update(float dt)
 	//glEnd();
 
 
-	App->modelLoader->RenderModel(mod_car, 0, 0, 0, 1.0f, 1.0f, .20f, 1.0f);
-	//App->modelLoader->RenderModel(cube, 0, 0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
+	//App->modelLoader->RenderModel(mod_car, 0, 0, 0, 1.0f, 1.0f, .20f, 1.0f);
+	App->modelLoader->RenderModel(cube, 0, 0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
 	//App->modelLoader->RenderModel(pyramid, 5, 0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
-	//App->modelLoader->RenderModel(train, 0, 0, 0, 0.0f, 0.0f, 1.0f, 1.0f, 10.f);
+	App->modelLoader->RenderModel(train, 0, 0, 0, 0.0f, 0.0f, 1.0f, 1.0f, 10.f);
 	//App->modelLoader->RenderModel(tracks, 0, 0, 0, 0.0f, 0.0f, 1.0f, 1.0f, 10.f);
 
 
