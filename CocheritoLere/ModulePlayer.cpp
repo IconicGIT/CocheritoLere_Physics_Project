@@ -99,6 +99,7 @@ bool ModulePlayer::Start()
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(0, 12, 10);
 	
+	
 	return true;
 }
 
@@ -117,7 +118,12 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-		acceleration = MAX_ACCELERATION;
+		if (vehicle->GetKmh() < maxVelocity)
+		{
+			acceleration = MAX_ACCELERATION;
+		}
+		
+		
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
@@ -134,13 +140,17 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		brake = BRAKE_POWER;
+		if (vehicle->GetKmh() <= 0.1f )
+		{
+			if(vehicle->GetKmh() > -maxVelocity / 2) acceleration = -MAX_ACCELERATION / 2;
+		}
+		else brake = BRAKE_POWER;
 	}
 
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
-
+	
 	//vehicle->Render();
 
 	char title[80];
@@ -150,5 +160,9 @@ update_status ModulePlayer::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
-
+btVector3 ModulePlayer::GetPosition()
+{
+	btVector3 pos = vehicle->vehicle->getChassisWorldTransform().getOrigin();
+	return pos;
+}
 

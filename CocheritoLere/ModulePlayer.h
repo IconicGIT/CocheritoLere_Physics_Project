@@ -19,10 +19,12 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	btVector3 GetPosition();
 public:
 
 	PhysVehicle3D* vehicle;
 	float turn;
 	float acceleration;
+	float maxVelocity = 25.0f;
 	float brake;
 };

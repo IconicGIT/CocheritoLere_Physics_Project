@@ -21,13 +21,14 @@ bool ModuleSceneIntro::Start()
 
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
+	
 
 	cube = App->modelLoader->LoadModel("Assets/Models/full_train.obj");
 	pyramid = App->modelLoader->LoadModel("Assets/Models/pyramid.obj");
 	tracks = App->modelLoader->LoadModel("Assets/Models/tracks.obj");
 	train = App->modelLoader->LoadModel("Assets/Models/full_train.obj");
 	mod_car = App->modelLoader->LoadModel("Assets/Models/car_1.obj");
-
+	
 	return ret;
 }
 
@@ -63,9 +64,21 @@ update_status ModuleSceneIntro::Update(float dt)
 	//
 	//
 	//glEnd();
+	
+	btVector3 playerPosition = App->player->GetPosition();
+	
+	if (App->physics->debug == true)
+	{
+		App->camera->Position.x = playerPosition.getX() ;
+		App->camera->Position.y = playerPosition.getY() + 10.0f;
+		App->camera->Position.z = playerPosition.getZ() - 15.0f;
+			//App->camera->Move(vec3(playerPosition.getX(), playerPosition.getY(), playerPosition.getZ()));
+		App->camera->LookAt(vec3(playerPosition.getX(), playerPosition.getY(), playerPosition.getZ()));
+	}
 
-
-	App->modelLoader->RenderModel(mod_car, 0, 0, 0, 1.0f, 1.0f, .20f, 1.0f);
+	
+	App->modelLoader->RenderModel(mod_car,playerPosition.getX() , playerPosition.getY(), playerPosition.getZ(), 1.0f, 1.0f, .20f, 1.0f);
+	
 	App->modelLoader->RenderModel(cube, 0, 0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
 	//App->modelLoader->RenderModel(pyramid, 5, 0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
 	App->modelLoader->RenderModel(train, 0, 0, 0, 0.0f, 0.0f, 1.0f, 1.0f, 10.f, true);
