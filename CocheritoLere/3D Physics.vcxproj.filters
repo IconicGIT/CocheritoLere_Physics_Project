@@ -90,6 +90,9 @@
     <ClInclude Include="OBJ_Loader.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -151,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="OBJ_Loader.cpp">
       <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
