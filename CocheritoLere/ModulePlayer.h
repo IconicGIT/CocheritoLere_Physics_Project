@@ -27,4 +27,6 @@ public:
 	float acceleration;
 	float maxVelocity = 25.0f;
 	float brake;
+
+	btVector3 forwardVec;
 };

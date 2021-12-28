@@ -94,6 +94,11 @@ update_status ModuleCamera3D::Update(float dt)
 		}
 
 		Position = Reference + Z * length(Position);
+
+		/*btVector3 playerPos = App->player->GetPosition();
+		Reference.x = playerPos.getX();
+		Reference.y = playerPos.getY();
+		Reference.z = playerPos.getZ();*/
 	}
 
 	// Recalculate matrix -------------
