@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "glmath.h"
 
+
 class ModuleCamera3D : public Module
 {
 public:
@@ -19,7 +20,8 @@ public:
 	float* GetViewMatrix();
 
 private:
-
+	void FollowVeichle();
+	void DebugMode(float dt);
 	void CalculateViewMatrix();
 
 public:
