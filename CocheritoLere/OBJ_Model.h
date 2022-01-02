@@ -1,56 +1,26 @@
 #pragma once
 
-
 #include "OBJ_Loader.h"
-#include "p2List.h"
 
 class Model
 {
 public:
-	Model() {}
+	Model();
 	~Model() {}
 
-public:
 
-	int LoadModel(std::string path)
-	{
-		int id = -1;
+	void RenderModel();
 
-
-		if (path.empty())
-		{
-			LOG("Could not load model.");
-			return -1;
-		}
-		
-		objl::Loader currentModel;
-		bool loaded = currentModel.LoadFile(path);
-		if (loaded)
-		{
-			id = 0;
-			models.add(currentModel);
-			while (id < models.count() - 1)
-			{
-				id++;
-			}
-		}
-		else
-		{
-			LOG("Could not load model. ");
-			return -1;
-		}
-		
-
-
-		return id;
-	}
-
-	void RenderModel(int modelID, float x, float y, float z, float colR, float colG, float colB, float alpha, float scale = 1.0f, bool wireframe = false);
-
-
-	
+	objl::Loader model;
+	float x, y, z;
+	float rot_x, rot_y, rot_z;
+	float colR;
+	float colG;
+	float colB;
+	float alpha;
+	float scale;
+	bool wireframe;
 
 private:
-	p2List<objl::Loader> models;
-
+	
 };

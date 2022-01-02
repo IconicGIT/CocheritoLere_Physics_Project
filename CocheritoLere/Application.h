@@ -13,14 +13,15 @@
 #include "ModulePhysics3D.h"
 #include "ModulePlayer.h"
 #include "OBJ_Model.h"
+#include "OBJ_Loader.h"
 
 class Application
 {
 public:
 	ModuleWindow* window;
 	ModuleInput* input;
+	objl::Loader* models;
 	ModuleAudio* audio;
-	Model* modelLoader;
 	ModuleSceneIntro* scene_intro;
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;

@@ -43,7 +43,10 @@ public:
 	PhysMotor3D* left_wheel;
 	PhysMotor3D* right_wheel;
 
-	int cube;
+
+	bool wireframeActive = false;
+
+	Model cube;
 	int pyramid;
 	int tracks;
 	int train;

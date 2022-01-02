@@ -1,5 +1,42 @@
 #include "OBJ_Loader.h"
 
+
+objl::Loader objl::Loader::LoadModel(std::string path)
+{
+	int id = -1;
+
+
+	if (path.empty())
+	{
+		LOG("Could not load model.");
+		id = -1;
+	}
+
+	objl::Loader currentModel;
+	bool loaded = currentModel.LoadFile(path);
+	if (loaded)
+	{
+		id = 0;
+		modelsList.add(currentModel);
+		while (id < modelsList.count() - 1)
+		{
+			id++;
+		}
+	}
+	else
+	{
+		LOG("Could not load model. ");
+		id = -1;
+
+	}
+
+
+	return currentModel;
+	
+}
+
+
+
 objl::OBJ_Vector3 objl::math::CrossV3(const OBJ_Vector3 a, const OBJ_Vector3 b)
 {
 	return objl::OBJ_Vector3(a.Y * b.Z - a.Z * b.Y,

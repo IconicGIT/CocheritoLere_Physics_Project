@@ -17,6 +17,8 @@
 // Math.h - STD math Library
 #include <math.h>
 
+#include "p2List.h"
+
 // Print progress to console while loading (large models)
 #define OBJL_CONSOLE_OUTPUT
 
@@ -285,6 +287,7 @@ namespace objl
 		// or unable to be loaded return false
 		bool LoadFile(std::string Path);
 
+		objl::Loader LoadModel(std::string path);
 		// Loaded Mesh Objects
 		std::vector<Mesh> LoadedMeshes;
 		// Loaded Vertex Objects
@@ -293,6 +296,8 @@ namespace objl
 		std::vector<unsigned int> LoadedIndices;
 		// Loaded Material Objects
 		std::vector<Material> LoadedMaterials;
+
+		p2List<objl::Loader> modelsList;
 
 	private:
 		// Generate vertices from a list of positions, 
