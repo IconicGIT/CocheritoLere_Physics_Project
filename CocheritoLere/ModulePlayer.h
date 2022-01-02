@@ -17,7 +17,9 @@ public:
 	virtual ~ModulePlayer();
 
 	bool Start();
+	update_status PreUpdate();
 	update_status Update(float dt);
+	update_status PostUpdate();
 	bool CleanUp();
 
 	btVector3 GetPosition();
@@ -28,6 +30,9 @@ public:
 	float acceleration;
 	float maxVelocity = 25.0f;
 	float brake;
+
+	vec3 lastPosition;
+	vec3 position;
 
 	btVector3 forwardVec;
 };

@@ -66,24 +66,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	//glEnd();
 	
 	btVector3 playerPosition = App->player->GetPosition();
-	vec3 playerPos = { playerPosition.getX(),playerPosition.getY(),playerPosition.getZ() };
-	
-	if (App->physics->debug == true)
-	{
-		App->camera->Position.x = playerPosition.getX() ;
-		App->camera->Position.y = playerPosition.getY() + 10.0f;
-		App->camera->Position.z = playerPosition.getZ() - 15.0f;
-			//App->camera->Move(vec3(playerPosition.getX(), playerPosition.getY(), playerPosition.getZ()));
-
-		//App->camera->Look(App->camera->Position, playerPos, false);
-
-		App->camera->LookAt(vec3(playerPosition.getX(), playerPosition.getY(), playerPosition.getZ()));
 		
-	
-		//App->camera->Look({ App->player->forwardVec.getX(),App->player->forwardVec.getY() +10.0f,App->player->forwardVec.getZ() - 10.0f }, App->camera->Position, false);
-	}
-
-	
 	App->modelLoader->RenderModel(mod_car,playerPosition.getX() , playerPosition.getY(), playerPosition.getZ(), 1.0f, 1.0f, .20f, 1.0f);
 	
 	App->modelLoader->RenderModel(cube, 0, 0, 0, 0.0f, 0.0f, 1.0f, 1.0f);

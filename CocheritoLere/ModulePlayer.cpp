@@ -103,12 +103,21 @@ bool ModulePlayer::Start()
 	return true;
 }
 
+
 // Unload assets
 bool ModulePlayer::CleanUp()
 {
 	LOG("Unloading player");
 
 	return true;
+}
+update_status ModulePlayer::PreUpdate()
+{
+	position.x = GetPosition().getX();
+	position.y = GetPosition().getY();
+	position.z = GetPosition().getX();
+
+	return UPDATE_CONTINUE;
 }
 
 // Update: draw background
@@ -122,8 +131,6 @@ update_status ModulePlayer::Update(float dt)
 		{
 			acceleration = MAX_ACCELERATION;
 		}
-		
-		
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
@@ -160,6 +167,12 @@ update_status ModulePlayer::Update(float dt)
 	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
 	App->window->SetTitle(title);
 
+	return UPDATE_CONTINUE;
+}
+
+update_status ModulePlayer::PostUpdate()
+{
+	lastPosition = position;
 	return UPDATE_CONTINUE;
 }
 
