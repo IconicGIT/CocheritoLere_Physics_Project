@@ -22,13 +22,17 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 	
-
-	cube = App->modelLoader->LoadModel("Assets/Models/full_train.obj");
-	pyramid = App->modelLoader->LoadModel("Assets/Models/pyramid.obj");
-	tracks = App->modelLoader->LoadModel("Assets/Models/tracks.obj");
-	train = App->modelLoader->LoadModel("Assets/Models/full_train.obj");
-	mod_car = App->modelLoader->LoadModel("Assets/Models/car_1.obj");
+	cube.model = App->models->LoadModel("Assets/Models/plane.obj");
+	cube.colB = 1;
+	cube.colG = 0;
+	cube.colR = 0;
+	//cube = App->modelLoader->LoadModel("Assets/Models/full_train.obj");
+	//pyramid = App->modelLoader->LoadModel("Assets/Models/pyramid.obj");
+	//tracks = App->modelLoader->LoadModel("Assets/Models/tracks.obj");
+	//train = App->modelLoader->LoadModel("Assets/Models/full_train.obj");
+	//mod_car = App->modelLoader->LoadModel("Assets/Models/car_1.obj");
 	
+
 	return ret;
 }
 
@@ -36,6 +40,8 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
+
+	//delete cube;
 
 	return true;
 }
@@ -47,7 +53,10 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
-
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	{
+		wireframeActive = !wireframeActive;
+	}
 	
 	//glBegin(GL_TRIANGLES);
 	//
@@ -67,12 +76,10 @@ update_status ModuleSceneIntro::Update(float dt)
 	
 	btVector3 playerPosition = App->player->GetPosition();
 		
-	App->modelLoader->RenderModel(mod_car,playerPosition.getX() , playerPosition.getY(), playerPosition.getZ(), 1.0f, 1.0f, .20f, 1.0f);
+
+	cube.RenderModel();
+
 	
-	App->modelLoader->RenderModel(cube, 0, 0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
-	//App->modelLoader->RenderModel(pyramid, 5, 0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
-	App->modelLoader->RenderModel(train, 0, 0, 0, 0.0f, 0.0f, 1.0f, 1.0f, 10.f, true);
-	//App->modelLoader->RenderModel(tracks, 0, 0, 0, 0.0f, 0.0f, 1.0f, 1.0f, 10.f);
 
 
 	return UPDATE_CONTINUE;
