@@ -94,7 +94,7 @@ void Model::RotateVertex(objl::Vertex &v)
 	p = HamiltonProduct(orientation, p);
 	p = HamiltonProduct(p, inv);
 
-	v.Position.X = p.getX();
+	v.Position.X = -p.getX();
 	v.Position.Y = p.getY();
 	v.Position.Z = p.getZ();
 	
