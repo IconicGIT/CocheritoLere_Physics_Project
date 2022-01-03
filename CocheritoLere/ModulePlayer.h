@@ -2,9 +2,10 @@
 #include "Module.h"
 #include "Globals.h"
 #include "p2Point.h"
-
+#include "OBJ_Model.h"
 
 struct PhysVehicle3D;
+class Model;
 
 #define MAX_ACCELERATION 1000.0f
 #define TURN_DEGREES 15.0f * DEGTORAD
@@ -17,12 +18,16 @@ public:
 	virtual ~ModulePlayer();
 
 	bool Start();
-	update_status PreUpdate();
+	update_status PreUpdate(float dt);
 	update_status Update(float dt);
-	update_status PostUpdate();
+	update_status PostUpdate(float dt);
 	bool CleanUp();
 
 	btVector3 GetPosition();
+
+	Model* carModel;
+	
+	btQuaternion orientation;
 public:
 
 	PhysVehicle3D* vehicle;

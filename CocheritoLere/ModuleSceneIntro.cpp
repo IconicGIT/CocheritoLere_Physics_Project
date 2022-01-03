@@ -22,10 +22,13 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 	
-	cube.model = App->models->LoadModel("Assets/Models/plane.obj");
-	cube.colB = 1;
-	cube.colG = 0;
-	cube.colR = 0;
+	cube = new Model();
+
+	cube->model = App->models->LoadModel("Assets/Models/plane.obj");
+	cube->colB = 0;
+	cube->colG = 0;
+	cube->colR = 255;
+	
 	//cube = App->modelLoader->LoadModel("Assets/Models/full_train.obj");
 	//pyramid = App->modelLoader->LoadModel("Assets/Models/pyramid.obj");
 	//tracks = App->modelLoader->LoadModel("Assets/Models/tracks.obj");
@@ -40,7 +43,7 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
-
+	delete cube;
 	//delete cube;
 
 	return true;
@@ -77,7 +80,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	btVector3 playerPosition = App->player->GetPosition();
 		
 
-	cube.RenderModel();
+	cube->RenderModel();
 
 	
 

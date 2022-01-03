@@ -9,6 +9,7 @@
 
 struct PhysBody3D;
 struct PhysMotor3D;
+class Model;
 
 class ModuleSceneIntro : public Module
 {
@@ -46,7 +47,7 @@ public:
 
 	bool wireframeActive = false;
 
-	Model cube;
+	Model* cube;
 	int pyramid;
 	int tracks;
 	int train;

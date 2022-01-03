@@ -5,6 +5,7 @@
 #include "PhysVehicle3D.h"
 #include "PhysBody3D.h"
 
+
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
 {
 	turn = acceleration = brake = 0.0f;
@@ -99,6 +100,14 @@ bool ModulePlayer::Start()
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(0, 12, 10);
 	
+	carModel = new Model();
+
+	carModel->model = App->models->LoadModel("Assets/Models/car_1.obj");
+	carModel->colR = 1;
+	carModel->colG = 0;
+	carModel->colB = 0;
+	carModel->scale = 2;
+	
 	
 	return true;
 }
@@ -108,14 +117,19 @@ bool ModulePlayer::Start()
 bool ModulePlayer::CleanUp()
 {
 	LOG("Unloading player");
+	delete carModel;
 
 	return true;
 }
-update_status ModulePlayer::PreUpdate()
+update_status ModulePlayer::PreUpdate(float dt)
 {
 	position.x = GetPosition().getX();
 	position.y = GetPosition().getY();
-	position.z = GetPosition().getX();
+	position.z = GetPosition().getZ();
+
+	carModel->x = position.x;
+	carModel->y = position.y;
+	carModel->z = position.z;
 
 	return UPDATE_CONTINUE;
 }
@@ -170,15 +184,22 @@ update_status ModulePlayer::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
-update_status ModulePlayer::PostUpdate()
+update_status ModulePlayer::PostUpdate(float dt)
 {
 	lastPosition = position;
+	carModel->RenderModel();
+	
 	return UPDATE_CONTINUE;
 }
 
 btVector3 ModulePlayer::GetPosition()
 {
 	btVector3 pos = vehicle->vehicle->getChassisWorldTransform().getOrigin();
+
+	orientation = vehicle->vehicle->getRigidBody()->getOrientation().normalized();
+	
+	carModel->orientation = orientation;
+
 	return pos;
 }
 
