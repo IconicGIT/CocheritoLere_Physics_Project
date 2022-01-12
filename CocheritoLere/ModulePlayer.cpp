@@ -102,7 +102,7 @@ bool ModulePlayer::Start()
 	
 	carModel = new Model();
 
-	carModel->model = App->models->LoadModel("Assets/Models/car_1.obj");
+	carModel->model = App->models->LoadModel("Assets/Models/car_2.obj");
 	carModel->colR = 1;
 	carModel->colG = 0;
 	carModel->colB = 0;

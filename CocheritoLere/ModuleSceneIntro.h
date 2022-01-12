@@ -48,9 +48,7 @@ public:
 	bool wireframeActive = false;
 
 	Model* cube;
-	int pyramid;
-	int tracks;
-	int train;
-	int mod_car;
+	PhysBody3D* obstacle;
+
 
 };

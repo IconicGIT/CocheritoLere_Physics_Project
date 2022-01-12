@@ -24,11 +24,22 @@ bool ModuleSceneIntro::Start()
 	
 	cube = new Model();
 
-	cube->model = App->models->LoadModel("Assets/Models/plane.obj");
-	cube->colB = 0;
+	cube->model = App->models->LoadModel("Assets/Models/def_cube.obj");
+	cube->colB = 255;
 	cube->colG = 0;
-	cube->colR = 255;
+	cube->colR = 0;
+	cube->x = 0;
+	cube->y = 0;
+	cube->z = 0;
 	
+
+	Cube obstacleGeo(4, 4, 4);
+	obstacle = App->physics->AddBody(obstacleGeo,0);
+	obstacle->SetPos(0, 0, 0);
+	
+	
+
+
 	//cube = App->modelLoader->LoadModel("Assets/Models/full_train.obj");
 	//pyramid = App->modelLoader->LoadModel("Assets/Models/pyramid.obj");
 	//tracks = App->modelLoader->LoadModel("Assets/Models/tracks.obj");
@@ -44,7 +55,6 @@ bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
 	delete cube;
-	//delete cube;
 
 	return true;
 }

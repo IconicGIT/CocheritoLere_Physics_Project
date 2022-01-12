@@ -4,6 +4,7 @@
 #include "ModuleCamera3D.h"
 #include "ModulePhysics3D.h"
 #include "ModulePlayer.h"
+#include "ModuleInput.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -26,6 +27,8 @@ bool ModuleCamera3D::Start()
 	LOG("Setting up the camera");
 	bool ret = true;
 
+	freecam = false;
+
 	return ret;
 }
 
@@ -41,7 +44,13 @@ bool ModuleCamera3D::CleanUp()
 update_status ModuleCamera3D::Update(float dt)
 {
 	
-	if (!App->physics->debug)
+	if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
+	{
+		freecam = !freecam;
+	}
+
+
+	if (freecam)
 		DebugMode(dt);
 	else
 		FollowVeichle();
