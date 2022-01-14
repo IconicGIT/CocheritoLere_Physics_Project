@@ -48,12 +48,29 @@ update_status ModuleCamera3D::Update(float dt)
 	{
 		freecam = !freecam;
 	}
+	
+	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
+	{
+		cview = right;
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_H) == KEY_REPEAT)
+	{
+		cview = behind;
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT)
+	{
+		cview = left;
+	}
+	else
+	{
+		cview = normal;
+	}
 
 
 	if (freecam)
 		DebugMode(dt);
 	else
-		FollowVeichle();
+		FollowVehicle();
 
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
@@ -84,10 +101,12 @@ void ModuleCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool Rota
 void ModuleCamera3D::LookAt( const vec3 &Spot)
 {
 	Reference = Spot;
-
+	
 	Z = normalize(Position - Reference);
 	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
 	Y = cross(Z, X);
+	
+	
 
 	CalculateViewMatrix();
 }
@@ -108,12 +127,42 @@ float* ModuleCamera3D::GetViewMatrix()
 	return &ViewMatrix;
 }
 
-void ModuleCamera3D::FollowVeichle()
+void ModuleCamera3D::FollowVehicle()
 {
 	btVector3 playerPosition = App->player->GetPosition();
 	vec3 playerForwardVec = { App->player->forwardVec.getX(),App->player->forwardVec.getY(),App->player->forwardVec.getZ() };
 	vec3 playerPos = { playerPosition.getX(),playerPosition.getY(),playerPosition.getZ() };
-	vec3 cameraOffset = { 0, 5, 15 };
+
+	vec3 cameraOffset = { 0, 0, 0 };
+	if (cview == left)
+	{
+		cameraOffset = { -15, 5, 0 };
+		Position = playerPos;
+		Position.z += cameraOffset.z;
+		Position.x += cameraOffset.x;
+		Position.y += cameraOffset.y;
+	}
+	else if(cview == right)
+	{
+		cameraOffset = { 15, 5, 0 };
+		Position = playerPos - playerForwardVec ;
+		Position.z += cameraOffset.z;
+		Position.x += cameraOffset.x;
+		Position.y += cameraOffset.y;
+	}
+	else if (cview == normal)
+	{
+		cameraOffset = { 0, 5, 15 };
+		Position = playerPos - playerForwardVec * cameraOffset.z;
+		Position.y += cameraOffset.y;
+	}
+	else if (cview == behind)
+	{
+		cameraOffset = { 0, 5, -15 };
+		Position = playerPos - playerForwardVec * cameraOffset.z;
+		Position.y += cameraOffset.y;
+	}
+
 	vec3 playerDir = App->player->position - App->player->lastPosition;
 	playerDir = normalize(playerDir);
 
@@ -123,8 +172,9 @@ void ModuleCamera3D::FollowVeichle()
 	Reference.z = playerPos.z;
 
 
-	Position = playerPos - playerForwardVec * cameraOffset.z;
-	Position.y += cameraOffset.y;
+	
+	
+	
 
 	CalculateViewMatrix();
 	LookAt(playerPos);
@@ -161,7 +211,7 @@ void ModuleCamera3D::DebugMode(float dt)
 		int dy = -App->input->GetMouseYMotion();
 
 		float Sensitivity = 0.25f;
-
+		
 		Position -= Reference;
 
 		if (dx != 0)

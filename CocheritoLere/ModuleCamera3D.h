@@ -20,7 +20,7 @@ public:
 	float* GetViewMatrix();
 
 private:
-	void FollowVeichle();
+	void FollowVehicle();
 	void DebugMode(float dt);
 	void CalculateViewMatrix();
 
@@ -29,7 +29,16 @@ public:
 	vec3 X, Y, Z, Position, Reference;
 
 private:
+	enum view
+	{
+		normal = 0,
+		left,
+		behind,
+		right
 
+	};
+
+	view cview = normal;
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 	bool freecam;
 };
