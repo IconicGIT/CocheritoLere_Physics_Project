@@ -49,6 +49,6 @@ public:
 
 	Model* cube;
 	PhysBody3D* obstacle;
-
+	Model* road;
 
 };

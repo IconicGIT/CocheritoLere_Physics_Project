@@ -32,13 +32,20 @@ bool ModuleSceneIntro::Start()
 	cube->y = 0;
 	cube->z = 0;
 	
-
+	road = new Model();
+	road->colB = 0;
+	road->colG = 255;
+	road->colG = 255;
+	road->x = 0;
+	road->y = 0;
+	road->z = 0;
+	
 	Cube obstacleGeo(4, 4, 4);
 	obstacle = App->physics->AddBody(obstacleGeo,0);
 	obstacle->SetPos(0, 0, 0);
 	
 	
-
+	road->model = App->models->LoadModel("Assets/Models/trail/race_base_floor.obj");
 
 	//cube = App->modelLoader->LoadModel("Assets/Models/full_train.obj");
 	//pyramid = App->modelLoader->LoadModel("Assets/Models/pyramid.obj");
@@ -91,7 +98,7 @@ update_status ModuleSceneIntro::Update(float dt)
 		
 
 	cube->RenderModel();
-
+	road->RenderModel();
 	
 
 
