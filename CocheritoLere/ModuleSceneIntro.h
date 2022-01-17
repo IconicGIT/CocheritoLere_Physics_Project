@@ -48,7 +48,7 @@ public:
 
 	bool wireframeActive = false;
 
-	Model* cube;
+	Model* ReferenceCube;
 	PhysBody3D* obstacle;
 	Model* road;
 

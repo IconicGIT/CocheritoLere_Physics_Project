@@ -108,7 +108,6 @@ bool ModulePlayer::Start()
 	carModel->colB = 0;
 	carModel->scale = 2;
 	
-	
 	return true;
 }
 
@@ -205,7 +204,7 @@ btVector3 ModulePlayer::GetPosition()
 
 	orientation = vehicle->vehicle->getRigidBody()->getOrientation().normalized();
 	
-	carModel->orientation = orientation;
+	carModel->orientation = -orientation;
 
 	return pos;
 }

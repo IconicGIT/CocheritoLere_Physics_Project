@@ -29,6 +29,7 @@ void Model::RenderModel()
 		{
 			int currIndex = currMesh.Indices[j];
 
+
 			objl::Vertex v1 = currMesh.Vertices[currIndex];
 			objl::Vertex v2 = currMesh.Vertices[currIndex + 1];
 			objl::Vertex v3 = currMesh.Vertices[currIndex + 2];
