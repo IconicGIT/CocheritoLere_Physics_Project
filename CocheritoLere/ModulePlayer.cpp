@@ -99,7 +99,9 @@ bool ModulePlayer::Start()
 
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(0, 12, 10);
-	
+	vehicle->type = PLAYER;
+	vehicle->collision_listeners.add(App->scene_intro);
+
 	carModel = new Model();
 
 	carModel->model = App->models->LoadModel("Assets/Models/car_2.obj");

@@ -6,6 +6,12 @@
 class btRigidBody;
 class Module;
 
+enum Type {//Set the type of the body
+	NO_TYPE,
+	PLAYER,
+	FLOOR,
+	SPHERE
+};
 // =================================================
 struct PhysBody3D
 {
@@ -24,6 +30,7 @@ private:
 
 public:
 	p2List<Module*> collision_listeners;
+	Type type = NO_TYPE;
 };
 
 #endif // __PhysBody3D_H__

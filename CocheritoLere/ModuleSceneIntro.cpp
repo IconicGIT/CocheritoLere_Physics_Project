@@ -45,10 +45,27 @@ bool ModuleSceneIntro::Start()
 	road->orientation = { 0, 1, 0, 0 };
 	//road->orientation = { 0.5, 0.5, 0.5, -0.5 };
 	
+	baseFloor = new Model();
+	baseFloor->model = App->models->LoadModel("Assets/Models/def_cube.obj");
+	baseFloor->colR = 125;
+	baseFloor->colG = 0;
+	baseFloor->colB = 225;
+	baseFloor->x = 0;
+	baseFloor->y = 0;
+	baseFloor->z = 15;
+	baseFloor->scale = 2;
+
 	Cube obstacleGeo(4, 4, 4);
 	obstacle = App->physics->AddBody(obstacleGeo,0); //objects with 0 mass act as kinematic
 	obstacle->SetPos(5, 0, 0);
-	
+	obstacle->type = PLAYER;
+	obstacle->collision_listeners.add(this);
+
+	Sphere ball(2);
+	ball.SetPos(0, 0, 0);
+	randomBall = App->physics->AddBody(ball, 1);
+	randomBall->collision_listeners.add(this);
+	randomBall->type = PLAYER;
 	
 	road->model = App->models->LoadModel("Assets/Models/car_1.obj");
 
@@ -68,7 +85,7 @@ bool ModuleSceneIntro::CleanUp()
 	LOG("Unloading Intro scene");
 	delete ReferenceCube;
 	delete road;
-
+	delete baseFloor;
 	return true;
 }
 
@@ -100,12 +117,29 @@ update_status ModuleSceneIntro::Update(float dt)
 	//
 	//glEnd();
 	
+
+	//small code for shpere movement
+	randomBall->SetPos(counter, 0, 0);
+	if (!arrived)
+	{
+		counter += 0.1f;
+		if (counter >= 10)
+			arrived = true;
+	}
+	else
+	{
+		counter -= 0.1f;
+		if (counter <= 0)
+			arrived = false;
+	}
+
 	btVector3 playerPosition = App->player->GetPosition();
 		
-	road->RenderModel();
+	//road->RenderModel();
 
 	ReferenceCube->RenderModel();
 	
+	baseFloor->RenderModel();
 	
 
 	
@@ -119,5 +153,19 @@ update_status ModuleSceneIntro::PostUpdate(float dt)
 }
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+	if (body1->type == PLAYER)
+	{
+		switch (body2->type)
+		{
+		case SPHERE:
+			LOG("Player touched sphere uwu");
+			break;
+		default:
+			break;
+		}
+	}
+	if (body1->type == SPHERE && body2->type == SPHERE) {
+		LOG("Balls Touching");
+	}
 }
 

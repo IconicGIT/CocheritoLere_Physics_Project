@@ -52,4 +52,9 @@ public:
 	PhysBody3D* obstacle;
 	Model* road;
 
+	Model* baseFloor;
+	float counter = 0;
+	bool arrived = false;
+
+	PhysBody3D* randomBall;
 };
