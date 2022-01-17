@@ -33,12 +33,16 @@ bool ModuleSceneIntro::Start()
 	cube->z = 0;
 	
 	road = new Model();
-	road->colB = 0;
-	road->colG = 255;
-	road->colG = 255;
+	road->colR = 0;
+	road->colG = 10;
+	road->colB = 10;
+	//road->scale = 0.5;
 	road->x = 0;
-	road->y = 0;
+	road->y = -8;
 	road->z = 0;
+	
+	road->orientation = { 0, 1, 0, 0 };
+	//road->orientation = { 0.5, 0.5, 0.5, -0.5 };
 	
 	Cube obstacleGeo(4, 4, 4);
 	obstacle = App->physics->AddBody(obstacleGeo,0);
@@ -62,6 +66,7 @@ bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
 	delete cube;
+	delete road;
 
 	return true;
 }
@@ -98,13 +103,18 @@ update_status ModuleSceneIntro::Update(float dt)
 		
 
 	cube->RenderModel();
-	road->RenderModel();
+	
 	
 
 
 	return UPDATE_CONTINUE;
 }
+update_status ModuleSceneIntro::PostUpdate(float dt)
+{
+	road->RenderModel();
 
+	return UPDATE_CONTINUE;
+}
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 }

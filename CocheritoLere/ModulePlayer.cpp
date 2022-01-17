@@ -138,13 +138,18 @@ update_status ModulePlayer::PreUpdate(float dt)
 update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
-
+	
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
 		if (vehicle->GetKmh() < maxVelocity)
 		{
 			acceleration = MAX_ACCELERATION;
+			
 		}
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_IDLE)
+	{
+		brake = 0.1f * BRAKE_POWER;
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)

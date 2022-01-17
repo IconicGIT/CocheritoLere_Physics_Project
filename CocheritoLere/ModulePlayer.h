@@ -9,7 +9,7 @@ class Model;
 
 #define MAX_ACCELERATION 1000.0f
 #define TURN_DEGREES 15.0f * DEGTORAD
-#define BRAKE_POWER 1000.0f
+#define BRAKE_POWER 10.0f
 
 class ModulePlayer : public Module
 {
@@ -33,7 +33,7 @@ public:
 	PhysVehicle3D* vehicle;
 	float turn;
 	float acceleration;
-	float maxVelocity = 25.0f;
+	float maxVelocity = 30.0f;
 	float brake;
 
 	vec3 lastPosition;
