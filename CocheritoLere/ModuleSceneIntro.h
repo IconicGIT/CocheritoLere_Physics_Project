@@ -24,6 +24,8 @@ public:
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
+	PhysBody3D* CreateSceneItem(float x, float y, float z, Type type);
+
 public:
 	/*
 	PhysBody3D* pb_snake[MAX_SNAKE];
@@ -57,4 +59,8 @@ public:
 	bool arrived = false;
 
 	PhysBody3D* randomBall;
+
+	/*Cube* cube;
+	PhysBody3D* horse;*/
+	p2List<PhysBody3D*> roadList;
 };

@@ -5,6 +5,7 @@
 
 class btRigidBody;
 class Module;
+class Primitive;
 
 enum Type {//Set the type of the body
 	NO_TYPE,
@@ -27,10 +28,16 @@ public:
 	void SetPos(float x, float y, float z);
 	void SetAsSensor(bool isSensor);
 
+	btRigidBody* GetBody() const
+	{
+		return body;
+	}
+
 private:
 	btRigidBody* body = nullptr;
-
+	
 public:
+	Primitive* prim = nullptr;
 	bool isSensor;
 	p2List<Module*> collision_listeners;
 	Type type = NO_TYPE;

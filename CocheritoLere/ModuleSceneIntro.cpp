@@ -22,6 +22,7 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 	
+	CreateSceneItem(10, 2, 10, Type::FLOOR);
 	
 	ReferenceCube = new Model();
 	ReferenceCube->model = App->models->LoadModel("Assets/Models/def_cube.obj");
@@ -92,6 +93,7 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
+	
 	Plane p(0, 1, 0, 0);
 	p.axis = true;
 	p.Render();
@@ -147,7 +149,10 @@ update_status ModuleSceneIntro::Update(float dt)
 }
 update_status ModuleSceneIntro::PostUpdate(float dt)
 {
-	
+	for (p2List_item<PhysBody3D*>* item = roadList.getFirst(); item; item = item->next)
+	{
+		item->data->prim->Render();
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -169,3 +174,19 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	}
 }
 
+PhysBody3D* ModuleSceneIntro::CreateSceneItem(float x, float y, float z, Type type)
+{
+	Cube* item = new Cube(15, 5, 15);
+	Color c;
+	c.a = 1;
+	c.r = 1;
+	c.g = 0.5;
+	c.b = 1;
+	item->color = c;
+	item->SetPos(x, y, z);
+	PhysBody3D* phys = App->physics->AddBody(*item, 0);
+	phys->type = type;
+	roadList.add(phys);
+	return phys;
+	
+}
