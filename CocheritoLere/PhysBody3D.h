@@ -11,6 +11,7 @@ enum Type {//Set the type of the body
 	NO_TYPE,
 	PLAYER,
 	FLOOR,
+	RAMP,
 	SPHERE,
 	SQUARE
 };

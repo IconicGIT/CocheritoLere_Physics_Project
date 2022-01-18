@@ -98,7 +98,7 @@ bool ModulePlayer::Start()
 	car.wheels[3].steering = false;
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(30, 2, 0);
+	vehicle->SetPos(0, 3, 0);
 	vehicle->type = PLAYER;
 	vehicle->collision_listeners.add(App->scene_intro);
 
@@ -136,13 +136,17 @@ update_status ModulePlayer::PreUpdate(float dt)
 	position.z = GetPosition().getZ();
 
 	deltaPosition = position - lastPosition;
+	
+	orientation = vehicle->vehicle->getRigidBody()->getOrientation().normalized();
+	carModel->orientation = -orientation;
+	
 
 	float m[16];
 	vehicle->GetTransform(m);
 	hitBox->SetTransform(m);
 
 	carModel->x = position.x;
-	carModel->y = position.y;
+	carModel->y = position.y - 0.4;
 	carModel->z = position.z;
 
 	turn = acceleration = brake = 0.0f;
@@ -181,7 +185,7 @@ update_status ModulePlayer::Update(float dt)
 update_status ModulePlayer::PostUpdate(float dt)
 {
 	lastPosition = position;
-//	carModel->RenderModel();
+	carModel->RenderModel();
 	
 	return UPDATE_CONTINUE;
 }
@@ -190,9 +194,6 @@ btVector3 ModulePlayer::GetPosition()
 {
 	btVector3 pos = vehicle->vehicle->getChassisWorldTransform().getOrigin();
 
-	orientation = vehicle->vehicle->getRigidBody()->getOrientation().normalized();
-	
-	carModel->orientation = -orientation;
 
 	return pos;
 }
