@@ -135,7 +135,7 @@ update_status ModulePlayer::PreUpdate(float dt)
 	position.y = GetPosition().getY();
 	position.z = GetPosition().getZ();
 
-	deltaPosition = position - lastPosition;
+	
 	
 	orientation = vehicle->vehicle->getRigidBody()->getOrientation().normalized();
 	carModel->orientation = -orientation;
@@ -144,7 +144,14 @@ update_status ModulePlayer::PreUpdate(float dt)
 	float m[16];
 	vehicle->GetTransform(m);
 	hitBox->SetTransform(m);
-
+	deltaPosition = position - lastPosition;
+	//float deltaPos = sqrt((deltaPosition.x * deltaPosition.x) + (deltaPosition.y * deltaPosition.y) + (deltaPosition.z * deltaPosition.z));
+	/*if (deltaPos > 0.2f)
+	{
+		carModel->x = position.x;
+		carModel->y = position.y - 0.4;
+		carModel->z = position.z;
+	}*/
 	carModel->x = position.x;
 	carModel->y = position.y - 0.4;
 	carModel->z = position.z;

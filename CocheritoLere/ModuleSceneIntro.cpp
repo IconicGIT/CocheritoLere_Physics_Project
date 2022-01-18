@@ -21,6 +21,32 @@ bool ModuleSceneIntro::Start()
 
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
+
+	Color c;
+	c.a = 1;
+	c.r = 0;
+	c.g = 1;
+	c.b = 0.8;
+
+	leftPole = new Cube(1, 12, 1);
+	leftPole->color = c;
+	leftPole->SetPos(10,6,0);
+	App->physics->AddBody(*leftPole, 0);
+
+	rightPole = new Cube(1, 12, 1);
+	rightPole->color = c;
+	rightPole->SetPos(-10, 6, 0);
+	App->physics->AddBody(*rightPole, 0);
+
+	c.a = 1;
+	c.r = 0;
+	c.g = 1;
+	c.b = 0.5;
+	topPole = new Cube(20, 3, 1);
+	topPole->color = c;
+	topPole->SetPos(0, 10, 0);
+	App->physics->AddBody(*topPole, 0);
+
 	//Road Panels:
 	//1
 	CreateSceneItem(0, 1, 20, Type::FLOOR);
@@ -125,9 +151,14 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
+	delete leftPole;
+	delete rightPole;
+	delete topPole;
+	roadList.clear();
 	/*delete ReferenceCube;
 	delete road;
 	delete baseFloor;*/
+
 	return true;
 }
 
@@ -194,6 +225,9 @@ update_status ModuleSceneIntro::PostUpdate(float dt)
 	{
 		item->data->prim->Render();
 	}
+	leftPole->Render();
+	rightPole->Render();
+	topPole->Render();
 
 	return UPDATE_CONTINUE;
 }
