@@ -21,10 +21,62 @@ bool ModuleSceneIntro::Start()
 
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
-	
-	CreateSceneItem(10, 2, 10, Type::FLOOR);
-	
-	ReferenceCube = new Model();
+	//Road Panels:
+	//1
+	CreateSceneItem(0, 1, 20, Type::FLOOR);
+	//2
+	roadPtr = CreateSceneItem(22, 1, 57, Type::FLOOR);
+	btTransform transform = roadPtr->GetBody()->getWorldTransform();
+	transform.setRotation({ 0.707107, 0, 0.707107, 0 });
+	roadPtr->GetBody()->setWorldTransform(transform);
+	roadPtr->prim->SetRotation(90, { 0,1,0 });
+	//3
+	roadPtr = CreateSceneItem(80, 1, 57, Type::FLOOR);
+	transform = roadPtr->GetBody()->getWorldTransform();
+	transform.setRotation({ 0.707107, 0, 0.707107, 0 });
+	roadPtr->GetBody()->setWorldTransform(transform);
+	roadPtr->prim->SetRotation(90, { 0,1,0 });
+	//4
+	CreateSceneItem(110, 1, 79, Type::FLOOR);
+	//5
+	roadPtr = CreateSceneItem(88, 1, 115, Type::FLOOR);
+	transform = roadPtr->GetBody()->getWorldTransform();
+	transform.setRotation({ 0.707107, 0, 0.707107, 0 });
+	roadPtr->GetBody()->setWorldTransform(transform);
+	roadPtr->prim->SetRotation(90, { 0,1,0 });
+	//6
+	roadPtr = CreateSceneItem(66, 5, 95, Type::RAMP);
+	transform = roadPtr->GetBody()->getWorldTransform();
+	transform.setRotation({ 0.984808, 0, 0, -0.173648 });
+	roadPtr->GetBody()->setWorldTransform(transform);
+	roadPtr->prim->SetRotation(20, { 1,0,0 });
+	//7
+	roadPtr = CreateSceneItem(66, 5, 33, Type::RAMP);
+	transform = roadPtr->GetBody()->getWorldTransform();
+	transform.setRotation({ 0.984808, 0, 0, 0.173648 });
+	roadPtr->GetBody()->setWorldTransform(transform);
+	roadPtr->prim->SetRotation(340, { 1,0,0 });
+	//8
+	CreateSceneItem(66, 1, -8, Type::FLOOR);
+	//9
+	CreateSceneItem(66, 1, -40, Type::FLOOR);
+	//10
+	roadPtr = CreateSceneItem(44, 1, -78, Type::FLOOR);
+	transform = roadPtr->GetBody()->getWorldTransform();
+	transform.setRotation({ 0.707107, 0, 0.707107, 0 });
+	roadPtr->GetBody()->setWorldTransform(transform);
+	roadPtr->prim->SetRotation(90, { 0,1,0 });
+	//11
+	roadPtr = CreateSceneItem(22, 1, -78, Type::FLOOR);
+	transform = roadPtr->GetBody()->getWorldTransform();
+	transform.setRotation({ 0.707107, 0, 0.707107, 0 });
+	roadPtr->GetBody()->setWorldTransform(transform);
+	roadPtr->prim->SetRotation(90, { 0,1,0 });
+	//12
+	CreateSceneItem(0, 1, -40, Type::FLOOR);
+
+
+	/*ReferenceCube = new Model();
 	ReferenceCube->model = App->models->LoadModel("Assets/Models/def_cube.obj");
 	ReferenceCube->colB = 255;
 	ReferenceCube->colG = 0;
@@ -33,18 +85,7 @@ bool ModuleSceneIntro::Start()
 	ReferenceCube->y = 0;
 	ReferenceCube->z = 0;
 	
-	road = new Model();
-	road->colR = 0;
-	road->colG = 10;
-	road->colB = 10;
-	//road->scale = 0.5;
-	road->x = 0;
-	road->y = -8;
-	road->z = 0;
-	road->scale = 2;
 	
-	road->orientation = { 0, 1, 0, 0 };
-	//road->orientation = { 0.5, 0.5, 0.5, -0.5 };
 	
 	baseFloor = new Model();
 	baseFloor->model = App->models->LoadModel("Assets/Models/def_cube.obj");
@@ -54,7 +95,7 @@ bool ModuleSceneIntro::Start()
 	baseFloor->x = 0;
 	baseFloor->y = 0;
 	baseFloor->z = 15;
-	baseFloor->scale = 2;
+	baseFloor->scale = 2;*/
 
 	Cube obstacleGeo(4, 4, 4);
 	obstacle = App->physics->AddBody(obstacleGeo,0); //objects with 0 mass act as kinematic
@@ -68,7 +109,7 @@ bool ModuleSceneIntro::Start()
 	randomBall->collision_listeners.add(this);
 	randomBall->type = SPHERE;
 	
-	road->model = App->models->LoadModel("Assets/Models/car_1.obj");
+	//road->model = App->models->LoadModel("Assets/Models/car_1.obj");
 
 	//cube = App->modelLoader->LoadModel("Assets/Models/full_train.obj");
 	//pyramid = App->modelLoader->LoadModel("Assets/Models/pyramid.obj");
@@ -84,9 +125,9 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
-	delete ReferenceCube;
+	/*delete ReferenceCube;
 	delete road;
-	delete baseFloor;
+	delete baseFloor;*/
 	return true;
 }
 
@@ -121,7 +162,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	
 
 //	small code for shpere movement
-	randomBall->SetPos(0, 0, counter);
+	randomBall->SetPos(10, 10, counter);
 	if (!arrived)
 	{
 		counter += 0.1f;
@@ -139,9 +180,9 @@ update_status ModuleSceneIntro::Update(float dt)
 		
 	//road->RenderModel();
 
-	ReferenceCube->RenderModel();
+	/*ReferenceCube->RenderModel();
 	
-	baseFloor->RenderModel();
+	baseFloor->RenderModel();*/
 	
 
 	
@@ -176,12 +217,22 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 
 PhysBody3D* ModuleSceneIntro::CreateSceneItem(float x, float y, float z, Type type)
 {
-	Cube* item = new Cube(15, 5, 15);
+	Cube* item;
+	if (type == FLOOR)
+	{
+		item = new Cube(16, 0.5, 60);
+	}
+	if (type == RAMP)
+	{
+		item = new Cube(16, 0.5, 30);
+	}
+
+	
 	Color c;
 	c.a = 1;
 	c.r = 1;
-	c.g = 0.5;
-	c.b = 1;
+	c.g = 0.9;
+	c.b = 0.8;
 	item->color = c;
 	item->SetPos(x, y, z);
 	PhysBody3D* phys = App->physics->AddBody(*item, 0);

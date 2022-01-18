@@ -52,7 +52,8 @@ public:
 
 	Model* ReferenceCube;
 	PhysBody3D* obstacle;
-	Model* road;
+	PhysBody3D* roadPtr;
+	//Model* road;
 
 	Model* baseFloor;
 	float counter = 0;
