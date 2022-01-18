@@ -10,7 +10,8 @@ enum Type {//Set the type of the body
 	NO_TYPE,
 	PLAYER,
 	FLOOR,
-	SPHERE
+	SPHERE,
+	SQUARE
 };
 // =================================================
 struct PhysBody3D
@@ -24,11 +25,13 @@ public:
 	void GetTransform(float* matrix) const;
 	void SetTransform(const float* matrix) const;
 	void SetPos(float x, float y, float z);
+	void SetAsSensor(bool isSensor);
 
 private:
 	btRigidBody* body = nullptr;
 
 public:
+	bool isSensor;
 	p2List<Module*> collision_listeners;
 	Type type = NO_TYPE;
 };

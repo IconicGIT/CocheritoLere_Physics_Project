@@ -40,4 +40,6 @@ public:
 	vec3 position;
 
 	btVector3 forwardVec;
+
+	PhysBody3D* hitBox = nullptr;
 };

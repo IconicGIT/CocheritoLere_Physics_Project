@@ -102,6 +102,12 @@ bool ModulePlayer::Start()
 	vehicle->type = PLAYER;
 	vehicle->collision_listeners.add(App->scene_intro);
 
+	Cube phitBox(4, 4, 4);
+	hitBox = App->physics->AddBody(phitBox);
+	hitBox->type = PLAYER;
+	hitBox->SetAsSensor(true);
+	hitBox->collision_listeners.add(App->scene_intro);
+
 	carModel = new Model();
 
 	carModel->model = App->models->LoadModel("Assets/Models/car_2.obj");
@@ -127,6 +133,9 @@ update_status ModulePlayer::PreUpdate(float dt)
 	position.x = GetPosition().getX();
 	position.y = GetPosition().getY();
 	position.z = GetPosition().getZ();
+
+
+	hitBox->SetPos(position.x, position.y, position.z);
 
 	carModel->x = position.x;
 	carModel->y = position.y;

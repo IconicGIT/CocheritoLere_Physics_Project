@@ -58,14 +58,14 @@ bool ModuleSceneIntro::Start()
 	Cube obstacleGeo(4, 4, 4);
 	obstacle = App->physics->AddBody(obstacleGeo,0); //objects with 0 mass act as kinematic
 	obstacle->SetPos(5, 0, 0);
-	obstacle->type = PLAYER;
+	obstacle->type = SQUARE;
 	obstacle->collision_listeners.add(this);
 
 	Sphere ball(2);
-	ball.SetPos(0, 0, 0);
-	randomBall = App->physics->AddBody(ball, 1);
+	ball.SetPos(0, 0, 5);
+	randomBall = App->physics->AddBody(ball, 0);
 	randomBall->collision_listeners.add(this);
-	randomBall->type = PLAYER;
+	randomBall->type = SPHERE;
 	
 	road->model = App->models->LoadModel("Assets/Models/car_1.obj");
 
@@ -118,8 +118,8 @@ update_status ModuleSceneIntro::Update(float dt)
 	//glEnd();
 	
 
-	//small code for shpere movement
-	randomBall->SetPos(counter, 0, 0);
+//	small code for shpere movement
+	randomBall->SetPos(0, 0, counter);
 	if (!arrived)
 	{
 		counter += 0.1f;
