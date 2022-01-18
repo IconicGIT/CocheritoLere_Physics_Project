@@ -8,8 +8,12 @@ struct PhysVehicle3D;
 class Model;
 
 #define MAX_ACCELERATION 1000.0f
-#define TURN_DEGREES 15.0f * DEGTORAD
-#define BRAKE_POWER 10.0f
+#define TURN_DEGREES 20.0f * DEGTORAD
+#define BRAKE_POWER 25.0f
+
+enum PlayerState {
+
+};
 
 class ModulePlayer : public Module
 {
@@ -28,16 +32,19 @@ public:
 	Model* carModel;
 	
 	btQuaternion orientation;
+private:
+	void Movement();
 public:
 
 	PhysVehicle3D* vehicle;
 	float turn;
 	float acceleration;
-	float maxVelocity = 30.0f;
+	float maxVelocity = 100.0f;
 	float brake;
 
 	vec3 lastPosition;
 	vec3 position;
+	vec3 deltaPosition;
 
 	btVector3 forwardVec;
 
