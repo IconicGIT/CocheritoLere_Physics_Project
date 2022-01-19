@@ -177,10 +177,14 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
-
-
+	btVector3 pos = App->player->GetPosition();
+	LOG("Player pos y %2.2f", pos.getY());
 	
-
+	if ((pos.getY() < 1)||(App->input->GetKey(SDL_SCANCODE_0)==KEY_DOWN))
+	{
+		
+		vehicle->SetPos(0, 5, 0);
+	}
 
 	char title[80];
 	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());

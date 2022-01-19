@@ -35,7 +35,7 @@ public:
 private:
 	void Movement();
 public:
-
+	
 	PhysVehicle3D* vehicle;
 	float turn;
 	float acceleration;
