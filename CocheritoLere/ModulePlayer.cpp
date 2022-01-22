@@ -182,7 +182,8 @@ update_status ModulePlayer::Update(float dt)
 	
 	if ((pos.getY() < 1)||(App->input->GetKey(SDL_SCANCODE_0)==KEY_DOWN))
 	{
-		
+		lifes--;
+		score = 0;
 		vehicle->SetPos(0, 5, 0);
 	}
 
