@@ -43,7 +43,7 @@ public:
 	float acceleration;
 	float maxVelocity = 100.0f;
 	float brake;
-
+	float initialM[16];
 	vec3 lastPosition;
 	vec3 position;
 	vec3 deltaPosition;

@@ -116,7 +116,7 @@ bool ModulePlayer::Start()
 	carModel->colG = 0;
 	carModel->colB = 0;
 	carModel->scale = 2;
-	
+	vehicle->GetTransform(initialM);
 	return true;
 }
 
@@ -180,11 +180,16 @@ update_status ModulePlayer::Update(float dt)
 	btVector3 pos = App->player->GetPosition();
 	LOG("Player pos y %2.2f", pos.getY());
 	
+	
+	
 	if ((pos.getY() < 1)||(App->input->GetKey(SDL_SCANCODE_0)==KEY_DOWN))
 	{
 		lifes--;
 		score = 0;
-		vehicle->SetPos(0, 5, 0);
+		vehicle->Brake(vehicle->GetKmh());
+		vehicle->SetTransform(initialM);
+		vehicle->SetPos(0, 8, 0);
+		
 	}
 
 	char title[80];
