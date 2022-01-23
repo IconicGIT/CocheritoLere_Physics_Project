@@ -47,7 +47,8 @@ public:
 	vec3 lastPosition;
 	vec3 position;
 	vec3 deltaPosition;
-
+	int counter = 0;
+	int lastTime = 0;
 	btVector3 forwardVec;
 
 	PhysBody3D* hitBox = nullptr;

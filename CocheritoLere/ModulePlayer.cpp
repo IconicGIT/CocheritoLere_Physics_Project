@@ -172,7 +172,7 @@ update_status ModulePlayer::PreUpdate(float dt)
 update_status ModulePlayer::Update(float dt)
 {
 
-
+	counter = SDL_GetTicks();
 
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
@@ -186,12 +186,12 @@ update_status ModulePlayer::Update(float dt)
 	{
 		lifes--;
 		score = 0;
-		vehicle->Brake(vehicle->GetKmh());
+		vehicle->GetBody()->forceActivationState(false);
 		vehicle->SetTransform(initialM);
-		vehicle->SetPos(0, 8, 0);
-		
+		vehicle->SetPos(0, 5, 0);
+		lastTime = counter + 100;
 	}
-
+	if(counter>lastTime) vehicle->GetBody()->forceActivationState(true);
 	char title[80];
 	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
 	App->window->SetTitle(title);
