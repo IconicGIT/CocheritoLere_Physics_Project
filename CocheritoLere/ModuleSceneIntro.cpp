@@ -47,6 +47,8 @@ bool ModuleSceneIntro::Start()
 	topPole->SetPos(0, 10, 0);
 	App->physics->AddBody(*topPole, 0);
 
+	
+
 	//Road Panels:
 	//1
 	CreateSceneItem(0, 1, 20, Type::FLOOR);

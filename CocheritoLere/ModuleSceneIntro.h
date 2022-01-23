@@ -56,6 +56,7 @@ public:
 	Cube* leftPole;
 	Cube* rightPole;
 	Cube* topPole;
+	
 
 	Model* baseFloor;
 	float counter = 0;
