@@ -116,7 +116,7 @@ bool ModulePlayer::Start()
 	carModel->colG = 0;
 	carModel->colB = 0;
 	carModel->scale = 2;
-	
+	vehicle->GetTransform(initialM);
 	return true;
 }
 
@@ -172,16 +172,26 @@ update_status ModulePlayer::PreUpdate(float dt)
 update_status ModulePlayer::Update(float dt)
 {
 
-
+	counter = SDL_GetTicks();
 
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
-
-
+	btVector3 pos = App->player->GetPosition();
+	LOG("Player pos y %2.2f", pos.getY());
 	
-
-
+	
+	
+	if ((pos.getY() < 1)||(App->input->GetKey(SDL_SCANCODE_0)==KEY_DOWN))
+	{
+		lifes--;
+		score = 0;
+		vehicle->GetBody()->forceActivationState(false);
+		vehicle->SetTransform(initialM);
+		vehicle->SetPos(0, 5, 0);
+		lastTime = counter + 100;
+	}
+	if(counter>lastTime) vehicle->GetBody()->forceActivationState(true);
 	char title[80];
 	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
 	App->window->SetTitle(title);

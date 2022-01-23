@@ -10,6 +10,7 @@ class Model;
 #define MAX_ACCELERATION 1000.0f
 #define TURN_DEGREES 20.0f * DEGTORAD
 #define BRAKE_POWER 25.0f
+#define MAX_LIFES 3
 
 enum PlayerState {
 
@@ -35,17 +36,19 @@ public:
 private:
 	void Movement();
 public:
-
+	unsigned int score = 0;
+	unsigned int lifes = MAX_LIFES;
 	PhysVehicle3D* vehicle;
 	float turn;
 	float acceleration;
 	float maxVelocity = 100.0f;
 	float brake;
-
+	float initialM[16];
 	vec3 lastPosition;
 	vec3 position;
 	vec3 deltaPosition;
-
+	int counter = 0;
+	int lastTime = 0;
 	btVector3 forwardVec;
 
 	PhysBody3D* hitBox = nullptr;
