@@ -157,6 +157,12 @@ bool ModuleSceneIntro::Start()
 	cubes[4] = new Cube(150, 1, 250);
 	cubes[4]->SetPos(50, 0, 30);
 	cubes[4]->color = cubeColor;
+
+
+	App->audio->PlayMusic("Assets/Audio/Music/song1.ogg");
+	
+	Mix_Music* music;
+	
 	return ret;
 }
 
@@ -180,6 +186,7 @@ update_status ModuleSceneIntro::Update(float dt)
 {
 	
 
+	
 	Plane p(0, 1, 0, 0);
 	p.axis = true;
 	p.Render();
@@ -189,13 +196,26 @@ update_status ModuleSceneIntro::Update(float dt)
 		wireframeActive = !wireframeActive;
 	}
 
-
+	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
+	{
+		if (!loliMode)
+		{
+			App->audio->PlayMusic("Assets/Audio/Music/song2.ogg");
+			loliMode = true;
+		}
+		else
+		{
+			App->audio->PlayMusic("Assets/Audio/Music/song1.ogg");
+			loliMode = false;
+		}
+		
+	}
 
 
 	Color colors;
 	currentTime = SDL_GetTicks();
 
-	if (currentTime > lastTime + 2000)
+	if ((currentTime > lastTime + 2000)&&(!loliMode))
 	{
 		lastTime = currentTime;
 		for (int i = 0; i < 4; i++)
@@ -226,6 +246,43 @@ update_status ModuleSceneIntro::Update(float dt)
 		}
 		
 		
+	}
+
+	if (loliMode)
+	{
+		if ((currentTime > lastTime + 100))
+		{
+			lastTime = currentTime;
+			for (int i = 0; i < 4; i++)
+			{
+
+				whatColor = currentTime % 3;
+				if (whatColor == 0)
+				{
+					colors.r = 0.0f;
+					colors.g = 1.0f;
+					colors.b = 1.0f;
+				}
+				else if (whatColor == 1)
+				{
+					colors.r = 1.0f;
+					colors.g = 0.0f;
+					colors.b = 1.0f;
+				}
+				else
+				{
+					colors.r = 0.0f;
+					colors.g = 0.0f;
+					colors.b = 1.0f;
+				}
+
+				cubes[i]->color = colors;
+
+			}
+
+
+		}
+
 	}
 	cubes[0]->Render();
 	cubes[1]->Render();

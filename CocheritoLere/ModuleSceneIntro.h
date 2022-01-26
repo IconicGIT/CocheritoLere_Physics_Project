@@ -65,6 +65,9 @@ public:
 	float counter = 0;
 	bool arrived = false;
 
+	bool loliMode = false;
+	uint song01 = 0;
+	uint song02 = 0;
 	PhysBody3D* randomBall;
 
 	/*Cube* cube;

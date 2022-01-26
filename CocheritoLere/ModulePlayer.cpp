@@ -182,7 +182,7 @@ update_status ModulePlayer::Update(float dt)
 	
 	
 	
-	if ((pos.getY() < 1)||(App->input->GetKey(SDL_SCANCODE_0)==KEY_DOWN))
+	if ((pos.getY() < 1)||(App->input->GetKey(SDL_SCANCODE_0)==KEY_DOWN) || (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN))
 	{
 		lifes--;
 		score = 0;
