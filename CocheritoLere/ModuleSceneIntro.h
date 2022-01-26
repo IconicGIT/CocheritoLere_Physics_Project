@@ -57,6 +57,10 @@ public:
 	Cube* rightPole;
 	Cube* topPole;
 
+	Cube* cubes[5];
+	int currentTime = 0;
+	int whatColor = 0;
+	int lastTime = 0;
 	Model* baseFloor;
 	float counter = 0;
 	bool arrived = false;

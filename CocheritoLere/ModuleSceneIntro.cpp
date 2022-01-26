@@ -142,8 +142,21 @@ bool ModuleSceneIntro::Start()
 	//tracks = App->modelLoader->LoadModel("Assets/Models/tracks.obj");
 	//train = App->modelLoader->LoadModel("Assets/Models/full_train.obj");
 	//mod_car = App->modelLoader->LoadModel("Assets/Models/car_1.obj");
-	
-
+	Color cubeColor;
+	cubeColor.r = 0.0f;
+	cubeColor.g = 0.5f;
+	cubeColor.b = 1.0f;
+	cubes[0] = new Cube(5, 150, 250);
+	cubes[0]->SetPos(-20, 75, 30);
+	cubes[1] = new Cube(150, 150, 5);
+	cubes[1]->SetPos(50, 75, -95);
+	cubes[2] = new Cube(5, 150, 250);
+	cubes[2]->SetPos(125, 75, 30);
+	cubes[3] = new Cube(150, 150, 5);
+	cubes[3]->SetPos(50, 75, 150);
+	cubes[4] = new Cube(150, 1, 250);
+	cubes[4]->SetPos(50, 0, 30);
+	cubes[4]->color = cubeColor;
 	return ret;
 }
 
@@ -166,6 +179,7 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update(float dt)
 {
 	
+
 	Plane p(0, 1, 0, 0);
 	p.axis = true;
 	p.Render();
@@ -174,7 +188,50 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		wireframeActive = !wireframeActive;
 	}
-	
+
+
+
+
+	Color colors;
+	currentTime = SDL_GetTicks();
+
+	if (currentTime > lastTime + 2000)
+	{
+		lastTime = currentTime;
+		for (int i = 0; i < 4; i++)
+		{
+			
+			whatColor = currentTime % 3;
+			if (whatColor == 0)
+			{
+				colors.r = 1.0f;
+				colors.g = 0.0f;
+				colors.b = 0.0f;
+			}
+			else if (whatColor == 1)
+			{
+				colors.r = 0.0f;
+				colors.g = 1.0f;
+				colors.b = 0.0f;
+			}
+			else
+			{
+				colors.r = 1.0f;
+				colors.g = 1.0f;
+				colors.b = 0.0f;
+			}
+			
+			cubes[i]->color = colors;
+
+		}
+		
+		
+	}
+	cubes[0]->Render();
+	cubes[1]->Render();
+	cubes[2]->Render();
+	cubes[3]->Render();
+	cubes[4]->Render();
 	//glBegin(GL_TRIANGLES);
 	//
 	//
