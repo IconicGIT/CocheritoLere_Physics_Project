@@ -158,10 +158,22 @@ bool ModuleSceneIntro::Start()
 	cubes[4]->SetPos(50, 0, 30);
 	cubes[4]->color = cubeColor;
 
-
 	App->audio->PlayMusic("Assets/Audio/Music/song1.ogg");
 	
-	Mix_Music* music;
+	//podium 
+	podium[0] = new Cube(8, 4, 4);
+	podium[0]->SetPos(30, 2.5, 0);
+	podium[1] = new Cube(8, 2, 4);
+	podium[1]->SetPos(30, 1.5, 4);
+	podium[2] = new Cube(8, 1, 4);
+	podium[2]->SetPos(30, 1, -4);
+	Cube podium(8, 4, 4);
+	obstacle = App->physics->AddBody(podium, 0); //objects with 0 mass act as kinematic
+	obstacle->SetPos(30, 2.5, 0);
+	obstacle->type = SQUARE;
+	obstacle->collision_listeners.add(this);
+
+	
 	
 	return ret;
 }
@@ -289,6 +301,9 @@ update_status ModuleSceneIntro::Update(float dt)
 	cubes[2]->Render();
 	cubes[3]->Render();
 	cubes[4]->Render();
+	podium[0]->Render();
+	podium[1]->Render();
+	podium[2]->Render();
 	//glBegin(GL_TRIANGLES);
 	//
 	//

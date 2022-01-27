@@ -65,7 +65,11 @@ update_status ModuleCamera3D::Update(float dt)
 	{
 		cview = normal;
 	}
-
+	
+	if (App->player->podium == true)
+	{
+		cview = behind;
+	}
 
 	if (freecam)
 		DebugMode(dt);

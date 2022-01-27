@@ -178,23 +178,45 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
 	btVector3 pos = App->player->GetPosition();
-	LOG("Player pos y %2.2f", pos.getY());
-	
-	
-	
+	//LOG("Player pos y %2.2f", pos.getY());
+	LOG("Player pos x %2.2f", pos.getX());
+	LOG("Player pos z %2.2f", pos.getZ());
+	if (((pos.getX() < 115) && (pos.getX() > 105)) && ((pos.getZ() < 85) && (pos.getZ() > 75))) checkpointPassed = true;
 	if ((pos.getY() < 1)||(App->input->GetKey(SDL_SCANCODE_0)==KEY_DOWN) || (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN))
 	{
 		lifes--;
 		score = 0;
 		vehicle->GetBody()->forceActivationState(false);
 		vehicle->SetTransform(initialM);
-		vehicle->SetPos(0, 5, 0);
+		if (!checkpointPassed) vehicle->SetPos(0, 5, 0);
+		else vehicle->SetPos(111, 5, 80);
+		podium = false;
+		
 		lastTime = counter + 100;
 	}
-	if(counter>lastTime) vehicle->GetBody()->forceActivationState(true);
+	if((counter>lastTime)&&(podium==false)) vehicle->GetBody()->forceActivationState(true);
 	char title[80];
 	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
 	App->window->SetTitle(title);
+
+
+	if ((App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN)||((checkpointPassed==true)&&(((pos.getX() < 10) && (pos.getX() > -10)) && ((pos.getZ() < 10) && (pos.getZ() > -10)))))
+	{
+		float matrix[16] = { 0.03, 0.00, 1.00, 0.00, -0.00, 1.00, -0.00, 0.00, -1.00, -0.00 , 0.03, 0.00, -0.57, 1.36, 1.31, 1.00 };
+		vehicle->SetTransform(matrix);
+		vehicle->GetBody()->forceActivationState(false);
+		vehicle->SetPos(30, 5, 0);
+		podium = true;
+		
+	}
+	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
+	{
+		float matrix[16];
+		vehicle->GetTransform(matrix);
+
+		LOG("%2.2f\n%2.2f\n%2.2f\n%2.2f\n%2.2f\n%2.2f\n%2.2f\n%2.2f\n%2.2f\n%2.2f\n%2.2f\n%2.2f\n%2.2f\n%2.2f\n%2.2f\n%2.2f\n ", matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5], matrix[6], matrix[7], matrix[8], matrix[9], matrix[10], matrix[11], matrix[12], matrix[13], matrix[14], matrix[15]);
+	}
+
 
 	return UPDATE_CONTINUE;
 }

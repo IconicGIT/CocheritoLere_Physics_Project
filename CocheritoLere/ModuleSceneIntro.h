@@ -53,11 +53,13 @@ public:
 	Model* ReferenceCube;
 	PhysBody3D* obstacle;
 	PhysBody3D* roadPtr;
+
 	Cube* leftPole;
 	Cube* rightPole;
 	Cube* topPole;
 
 	Cube* cubes[5];
+	Cube* podium[3];
 	int currentTime = 0;
 	int whatColor = 0;
 	int lastTime = 0;

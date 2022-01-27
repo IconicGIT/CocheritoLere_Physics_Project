@@ -51,5 +51,10 @@ public:
 	int lastTime = 0;
 	btVector3 forwardVec;
 
+	bool checkpointPassed = false;
+	bool podium = false;
+	
+
+
 	PhysBody3D* hitBox = nullptr;
 };
