@@ -112,20 +112,21 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 // ---------------------------------------------------------
 update_status ModulePhysics3D::Update(float dt)
 {
-	float density = 1.225;
-	float LIFTForce = 0.5f * density * ((App->player->vehicle->GetKmh() / 3.6f) * (App->player->vehicle->GetKmh() / 3.6f)) * 8 * 1.0f;
-	float gravForce = App->player->vehicle->info.mass * GRAVITY.y();
-
-	float totalForce = gravForce + LIFTForce;
-	float finalAcceleration = totalForce / App->player->vehicle->info.mass;
-	//LOG("density: %2.2f", density);
-	//LOG("totalforce: %2.2f", totalForce);
-	LOG("finalA: %2.2f", finalAcceleration);
-	//world->setGravity({ 0,finalAcceleration,0 });
+	
 	btVector3 pos = App->player->GetPosition();
 	if ((pos.getY() > 8) && !LiftActive)
 	{
-		world->setGravity({ 0,finalAcceleration,0 });
+
+		float density = 1.225; //density of the air
+		float LIFTForce = 0.5f * density * ((App->player->vehicle->GetKmh() / 3.6f) * (App->player->vehicle->GetKmh() / 3.6f)) * 8 * 1.0f; //Calculates LIFT using the formula L=1/2p*v^2*S*Cl   (Lift is a Force in Fy)
+		float gravForce = App->player->vehicle->info.mass * GRAVITY.y(); //Calculates gravity force F=m*a (Gravity is a force in Fy)
+
+		float totalForce = gravForce + LIFTForce; //Total Force on FY, we need totalForce to be negative so we add Lift instead of substract
+		float finalAcceleration = totalForce / App->player->vehicle->info.mass; //Calculation of the acceleration of the total force in y
+
+		LOG("finalA: %2.2f", finalAcceleration);
+
+		world->setGravity({ 0,finalAcceleration,0 }); //Changes the gravity of the world to the acceleration from before.
 		LiftActive = true;
 	}
 	if ((pos.getY() < 8) && (LiftActive == true))
