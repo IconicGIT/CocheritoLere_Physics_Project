@@ -173,14 +173,15 @@ update_status ModulePlayer::Update(float dt)
 {
 
 	counter = SDL_GetTicks();
-
+	
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
+	
 	btVector3 pos = App->player->GetPosition();
 	//LOG("Player pos y %2.2f", pos.getY());
-	LOG("Player pos x %2.2f", pos.getX());
-	LOG("Player pos z %2.2f", pos.getZ());
+	//LOG("Player pos x %2.2f", pos.getX());
+	//LOG("Player pos z %2.2f", pos.getZ());
 	if (((pos.getX() < 115) && (pos.getX() > 105)) && ((pos.getZ() < 85) && (pos.getZ() > 75))) checkpointPassed = true;
 	if ((pos.getY() < 1)||(App->input->GetKey(SDL_SCANCODE_0)==KEY_DOWN) || (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN))
 	{

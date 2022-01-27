@@ -4,7 +4,7 @@
 #include "PhysBody3D.h"
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
-
+#include "PhysVehicle3D.h"
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
 	#pragma comment (lib, "Bullet/libx86/BulletCollision_debug.lib")
@@ -73,7 +73,7 @@ bool ModulePhysics3D::Start()
 update_status ModulePhysics3D::PreUpdate(float dt)
 {
 	world->stepSimulation(dt, 15);
-
+	
 	int numManifolds = world->getDispatcher()->getNumManifolds();
 	for(int i = 0; i<numManifolds; i++)
 	{
@@ -112,9 +112,32 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 // ---------------------------------------------------------
 update_status ModulePhysics3D::Update(float dt)
 {
+	float density = 1.225;
+	float LIFTForce = 0.5f * density * ((App->player->vehicle->GetKmh() / 3.6f) * (App->player->vehicle->GetKmh() / 3.6f)) * 8 * 1.0f;
+	float gravForce = App->player->vehicle->info.mass * GRAVITY.y();
+
+	float totalForce = gravForce + LIFTForce;
+	float finalAcceleration = totalForce / App->player->vehicle->info.mass;
+	//LOG("density: %2.2f", density);
+	//LOG("totalforce: %2.2f", totalForce);
+	LOG("finalA: %2.2f", finalAcceleration);
+	//world->setGravity({ 0,finalAcceleration,0 });
+	btVector3 pos = App->player->GetPosition();
+	if ((pos.getY() > 8) && !LiftActive)
+	{
+		world->setGravity({ 0,finalAcceleration,0 });
+		LiftActive = true;
+	}
+	if ((pos.getY() < 8) && (LiftActive == true))
+	{
+		world->setGravity(GRAVITY);
+		LiftActive = false;
+	}
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;
-
+	
+	
+	//world->setGravity(GRAVITY + LIFT);
 	if(debug == true)
 	{
 		world->debugDrawWorld();
