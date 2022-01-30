@@ -77,7 +77,7 @@ bool ModuleSceneIntro::Start()
 	CreateSceneItem(110, 1, 140, Type::FLOOR);
 	//4.2
 	CreateSceneItem(110, 1, 200, Type::FLOOR);
-	liftCube = new Cube(16, 0.5, 60);
+	liftCube = new Cube(26, 0.5, 60);
 	lift = App->physics->AddBody(*liftCube, 0);
 	
 	
@@ -401,10 +401,10 @@ bool ModuleSceneIntro::Start()
 		c_p2p_1[i] = App->physics->AddConstraintP2P(*c_chains_pb_1[i - 1], *c_chains_pb_1[i], { 0,-2.5f,0 }, { 0,2.5f,0 });
 	}
 
-
-	base_pos[0] = 60;
-	base_pos[1] = 50;
-	base_pos[2] = 0;
+	//66, 1, 200
+	base_pos[0] = 66;
+	base_pos[1] = 30;
+	base_pos[2] = 180;
 
 	c_sph_2 = new Sphere(2.5f);
 	c_sph_2->SetPos(base_pos[0], base_pos[1], base_pos[2]);
@@ -426,10 +426,10 @@ bool ModuleSceneIntro::Start()
 		c_p2p_2[i] = App->physics->AddConstraintP2P(*c_chains_pb_2[i - 1], *c_chains_pb_2[i], { 0,-2.5f,0 }, { 0,2.5f,0 });
 	}
 
-
-	base_pos[0] = 20;
-	base_pos[1] = 50;
-	base_pos[2] = 40;
+	//110, 30, 195
+	base_pos[0] = 110;
+	base_pos[1] = 60;
+	base_pos[2] = 195;
 
 	c_sph_3 = new Sphere(2.5f);
 	c_sph_3->SetPos(base_pos[0], base_pos[1], base_pos[2]);
@@ -451,10 +451,10 @@ bool ModuleSceneIntro::Start()
 		c_p2p_3[i] = App->physics->AddConstraintP2P(*c_chains_pb_3[i - 1], *c_chains_pb_3[i], { 0,-2.5f,0 }, { 0,2.5f,0 });
 	}
 
-
-	base_pos[0] = 60;
-	base_pos[1] = 50;
-	base_pos[2] = 40;
+	//44, 30, 280
+	base_pos[0] = 44;
+	base_pos[1] = 60;
+	base_pos[2] = 280;
 
 	c_sph_4 = new Sphere(2.5f);
 	c_sph_4->SetPos(base_pos[0], base_pos[1], base_pos[2]);
@@ -522,8 +522,8 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
-	lift->SetPos(6, 15 + 14 * sinf(a * 0.5f), 180);
-	liftCube->SetPos(6, 15 + 14 * sinf(a * 0.5f), 180);
+	lift->SetPos(6 - 5, 16 + 15 * sinf(a * 0.3f), 180);
+	liftCube->SetPos(6 - 5, 16 + 15 * sinf(a * 0.3f), 180);
 	liftCube->Render();
 
 
