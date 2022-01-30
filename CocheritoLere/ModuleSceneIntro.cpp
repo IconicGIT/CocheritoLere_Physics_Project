@@ -76,9 +76,49 @@ bool ModuleSceneIntro::Start()
 	CreateSceneItem(110, 1, 140, Type::FLOOR);
 	//4.2
 	CreateSceneItem(110, 1, 200, Type::FLOOR);
+	
+	//<level2>
+	CreateSceneItem(66, 30, 250, Type::FLOOR);
+	roadPtr = CreateSceneItem(88, 30, 225, Type::FLOOR);
+	transform = roadPtr->GetBody()->getWorldTransform();
+	transform.setRotation({ 0.707107, 0, 0.707107, 0 });
+	roadPtr->GetBody()->setWorldTransform(transform);
+	roadPtr->prim->SetRotation(90, { 0,1,0 });
+	
+	CreateSceneItem(110, 30, 195, Type::FLOOR);
 
-
-
+	roadPtr = CreateSceneItem(88, 30, 160, Type::FLOOR);
+	transform = roadPtr->GetBody()->getWorldTransform();
+	transform.setRotation({ 0.707107, 0, 0.707107, 0 });
+	roadPtr->GetBody()->setWorldTransform(transform);
+	roadPtr->prim->SetRotation(90, { 0,1,0 });
+	//CreateSceneItem(66, 30, 190, Type::FLOOR);
+	CreateSceneItem(66, 30, 130, Type::FLOOR);
+	//CreateSceneItem(66, 30, 100, Type::FLOOR);
+	//CreateSceneItem(66, 30, 130, Type::FLOOR);
+	roadPtr = CreateSceneItem(44, 30, 280, Type::FLOOR);
+	transform = roadPtr->GetBody()->getWorldTransform();
+	transform.setRotation({ 0.707107, 0, 0.707107, 0 });
+	roadPtr->GetBody()->setWorldTransform(transform);
+	roadPtr->prim->SetRotation(90, { 0,1,0 });
+	
+	CreateSceneItem(22, 30, 250, Type::FLOOR);
+	CreateSceneItem(22, 30, 195, Type::FLOOR);
+	roadPtr = CreateSceneItem(44, 1, 160, Type::FLOOR);
+	transform = roadPtr->GetBody()->getWorldTransform();
+	transform.setRotation({ 0.707107, 0, 0.707107, 0 });
+	roadPtr->GetBody()->setWorldTransform(transform);
+	roadPtr->prim->SetRotation(90, { 0,1,0 });
+	
+	roadPtr = CreateSceneItem(66, 35, 205, Type::RAMP);
+	transform = roadPtr->GetBody()->getWorldTransform();
+	transform.setRotation({ 0.984808, 0, 0, -0.173648 });
+	roadPtr->GetBody()->setWorldTransform(transform);
+	roadPtr->prim->SetRotation(20, { 1,0,0 });
+	
+	
+	//</level2>
+	
 	//5
 	roadPtr = CreateSceneItem(88, 1, 230, Type::FLOOR);
 	transform = roadPtr->GetBody()->getWorldTransform();
