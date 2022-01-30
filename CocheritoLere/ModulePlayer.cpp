@@ -237,7 +237,7 @@ update_status ModulePlayer::Update(float dt)
 update_status ModulePlayer::PostUpdate(float dt)
 {
 	lastPosition = position;
-	//carModel->RenderModel();
+	carModel->RenderModel();
 	
 	return UPDATE_CONTINUE;
 }

@@ -39,6 +39,8 @@ bool ModuleSceneIntro::Start()
 	rightPole->SetPos(-10, 6, 0);
 	App->physics->AddBody(*rightPole, 0);
 
+	
+
 	c.a = 1;
 	c.r = 0;
 	c.g = 1;
@@ -49,11 +51,10 @@ bool ModuleSceneIntro::Start()
 	App->physics->AddBody(*topPole, 0);
 
 	//test slider
-	testA = new Cube(20, 3, 1);
-	testA->color = c;
-	testA->SetPos(0, 10, 0);
-	App->physics->AddBody(*testA, 0);
+	
 
+	
+	
 
 	//Road Panels:
 	//1
@@ -76,6 +77,19 @@ bool ModuleSceneIntro::Start()
 	CreateSceneItem(110, 1, 140, Type::FLOOR);
 	//4.2
 	CreateSceneItem(110, 1, 200, Type::FLOOR);
+	liftCube = new Cube(16, 0.5, 60);
+	lift = App->physics->AddBody(*liftCube, 0);
+	
+	
+	
+	c.a = 1;
+	c.r = 1;
+	c.g = 0.9;
+	c.b = 0.8;
+	liftCube->color = c;
+
+
+	a = 0;
 	
 	//<level2>
 	CreateSceneItem(66, 30, 250, Type::FLOOR);
@@ -104,6 +118,7 @@ bool ModuleSceneIntro::Start()
 	
 	CreateSceneItem(22, 30, 250, Type::FLOOR);
 	CreateSceneItem(22, 30, 195, Type::FLOOR);
+
 	roadPtr = CreateSceneItem(44, 1, 160, Type::FLOOR);
 	transform = roadPtr->GetBody()->getWorldTransform();
 	transform.setRotation({ 0.707107, 0, 0.707107, 0 });
@@ -117,6 +132,8 @@ bool ModuleSceneIntro::Start()
 	roadPtr->prim->SetRotation(20, { 1,0,0 });
 	
 	
+	
+
 	//</level2>
 	
 	//5
@@ -163,6 +180,13 @@ bool ModuleSceneIntro::Start()
 	//12
 	CreateSceneItem(0, 1, -40, Type::FLOOR);
 
+	//110, 1, 80
+	//110, 1, 140
+	//110, 1, 200
+	//22, 30, 250
+	//22, 30, 19
+	//44, 1, 160
+	//66, 5, 95
 
 	/*ReferenceCube = new Model();
 	ReferenceCube->model = App->models->LoadModel("Assets/Models/def_cube.obj");
@@ -222,7 +246,7 @@ bool ModuleSceneIntro::Start()
 	cubes[4]->color = cubeColor;
 
 
-	App->audio->PlayMusic("Assets/Audio/Music/song1.ogg");
+	App->audio->PlayMusic("Assets/Audio/Music/song2.ogg");
 	
 	//podium 
 	podium[0] = new Cube(8, 4, 4);
@@ -237,7 +261,226 @@ bool ModuleSceneIntro::Start()
 	obstacle->type = SQUARE;
 	obstacle->collision_listeners.add(this);
 
+
 	
+
+
+
+
+	//cubeA = new Cube(1, 1, 1);
+	//cubeA->SetPos(-1, 6, 0);
+	//testA = App->physics->AddBody(*cubeA, 0);
+	//
+	//cubeB = new Cube(1, 1, 1);
+	//cubeB->SetPos(1, 6, 0);
+	//testB = App->physics->AddBody(*cubeB , 1);
+
+	//110, 1, 140
+	float base_pos[3] = { 110,2,140 };
+
+	s1_cube_base[0] = new Cube(1, 1, 1);
+	s1_cube_base[0]->SetPos(base_pos[0], base_pos[1], base_pos[2]);
+	s1_base[0] = App->physics->AddBody(*s1_cube_base[0], 0);
+
+	s1_cube_1[0] = new Cube(3, 6, 0.25f);
+	s1_cube_1[0]->SetPos(base_pos[0] - 3, base_pos[1] + 8, base_pos[2]);
+	s1_wall_1[0] = App->physics->AddBody(*s1_cube_1[0], 1);
+
+	s1_cube_2[0] = new Cube(3, 6, 0.25f);
+	s1_cube_2[0]->SetPos(base_pos[0] - 3, base_pos[1] + 8, base_pos[2]);
+	s1_wall_2[0]= App->physics->AddBody(*s1_cube_2[0], 1);
+	
+
+	s1_hinge_1[0] = App->physics->AddConstraintHinge(*s1_base[0], *s1_wall_1[0], { 0,3,0 }, { -1,0,0 }, { 0,1,0 }, { 0,1,0 }, true);
+	s1_hinge_1[0]->enableAngularMotor(true, 1, 5);
+			  
+	s1_hinge_1[0] = App->physics->AddConstraintHinge(*s1_base[0], *s1_wall_2[0], { 0,3,0 }, { 1,0,0 }, { 0,1,0 }, { 0,1,0 }, true);
+	s1_hinge_1[0]->enableAngularMotor(true, 1, 5);
+
+	//110, 1, 200
+	base_pos[0] = 110;
+	base_pos[1] = 2;
+	base_pos[2] = 200;
+
+	s1_cube_base[1] = new Cube(1, 1, 1);
+	s1_cube_base[1]->SetPos(base_pos[0], base_pos[1], base_pos[2]);
+	s1_base[1] = App->physics->AddBody(*s1_cube_base[1], 0);
+
+	s1_cube_1[1] = new Cube(3, 6, 0.25f);
+	s1_cube_1[1]->SetPos(base_pos[0] - 3, base_pos[1] + 8, base_pos[2]);
+	s1_wall_1[1] = App->physics->AddBody(*s1_cube_1[1], 1);
+
+	s1_cube_2[1] = new Cube(3, 6, 0.25f);
+	s1_cube_2[1]->SetPos(base_pos[0] - 3, base_pos[1] + 8, base_pos[2]);
+	s1_wall_2[1] = App->physics->AddBody(*s1_cube_2[1], 1);
+
+
+	s1_hinge_1[1] = App->physics->AddConstraintHinge(*s1_base[1], *s1_wall_1[1], { 0,3,0 }, { -1,0,0 }, { 0,1,0 }, { 0,1,0 }, true);
+	s1_hinge_1[1]->enableAngularMotor(true, 1, 5);
+
+	s1_hinge_1[1] = App->physics->AddConstraintHinge(*s1_base[1], *s1_wall_2[1], { 0,3,0 }, { 1,0,0 }, { 0,1,0 }, { 0,1,0 }, true);
+	s1_hinge_1[1]->enableAngularMotor(true, 1, 5);
+
+	//80, 1, 58
+	base_pos[0] = 80;
+	base_pos[1] = 2;
+	base_pos[2] = 58;
+
+	s1_cube_base[2] = new Cube(1, 1, 1);
+	s1_cube_base[2]->SetPos(base_pos[0], base_pos[1], base_pos[2]);
+	s1_base[2] = App->physics->AddBody(*s1_cube_base[2], 0);
+
+	s1_cube_1[2] = new Cube(3, 6, 0.25f);
+	s1_cube_1[2]->SetPos(base_pos[0] - 3, base_pos[1] + 8, base_pos[2]);
+	s1_wall_1[2] = App->physics->AddBody(*s1_cube_1[2], 1);
+
+	s1_cube_2[2] = new Cube(3, 6, 0.25f);
+	s1_cube_2[2]->SetPos(base_pos[0] - 3, base_pos[1] + 8, base_pos[2]);
+	s1_wall_2[2] = App->physics->AddBody(*s1_cube_2[2], 1);
+
+
+	s1_hinge_1[2] = App->physics->AddConstraintHinge(*s1_base[2], *s1_wall_1[2], { 0,3,0 }, { -1,0,0 }, { 0,1,0 }, { 0,1,0 }, true);
+	s1_hinge_1[2]->enableAngularMotor(true, 1, 5);
+
+	s1_hinge_1[2] = App->physics->AddConstraintHinge(*s1_base[2], *s1_wall_2[2], { 0,3,0 }, { 1,0,0 }, { 0,1,0 }, { 0,1,0 }, true);
+	s1_hinge_1[2]->enableAngularMotor(true, 1, 5);
+
+	//22, 1, 58
+	base_pos[0] = 22 + 4;
+	base_pos[1] = 2;
+	base_pos[2] = 58 - 3;
+
+	s1_cube_base[3] = new Cube(1, 1, 1);
+	s1_cube_base[3]->SetPos(base_pos[0], base_pos[1], base_pos[2]);
+	s1_base[3] = App->physics->AddBody(*s1_cube_base[3], 0);
+
+	s1_cube_1[3] = new Cube(3, 6, 0.25f);
+	s1_cube_1[3]->SetPos(base_pos[0] - 3, base_pos[1] + 8, base_pos[2]);
+	s1_wall_1[3] = App->physics->AddBody(*s1_cube_1[3], 10);
+
+	s1_cube_2[3] = new Cube(3, 6, 0.25f);
+	s1_cube_2[3]->SetPos(base_pos[0] - 3, base_pos[1] + 8, base_pos[2]);
+	s1_wall_2[3] = App->physics->AddBody(*s1_cube_2[3], 10);
+
+
+	s1_hinge_1[3] = App->physics->AddConstraintHinge(*s1_base[3], *s1_wall_1[3], { 0,3,0 }, { -1,0,0 }, { 0,1,0 }, { 0,1,0 }, true);
+	s1_hinge_1[3]->enableAngularMotor(true, 1, 5);
+
+	s1_hinge_1[3] = App->physics->AddConstraintHinge(*s1_base[3], *s1_wall_2[3], { 0,3,0 }, { 1,0,0 }, { 0,1,0 }, { 0,1,0 }, true);
+	s1_hinge_1[3]->enableAngularMotor(true, 1, 5);
+	
+	s_angle = 0;
+
+	
+	//22, 30, 250
+	//22, 30, 19
+	//44, 1, 160
+	//66, 5, 95
+
+	//66, 5, 95
+	base_pos[0] = 66;
+	base_pos[1] = 30;
+	base_pos[2] = 95 - 30;
+
+	c_sph_1 = new Sphere(2.5f);
+	c_sph_1->SetPos(base_pos[0], base_pos[1], base_pos[2]);
+	c_base_1 = App->physics->AddBody(*c_sph_1, 0);
+
+	for (int i = 0; i < 5; i++)
+	{
+		c_chains_1[i] = new Sphere(2.5f);
+		c_chains_1[i]->SetPos(base_pos[0], base_pos[1] - 2.5f * i, base_pos[2]);
+		c_chains_pb_1[i] = App->physics->AddBody(*c_sph_1, 10);
+	}
+
+	c_p2p_1[0] = App->physics->AddConstraintP2P(*c_base_1, *c_chains_pb_1[0], { 0,-2.5f ,0 }, { 0,2.5f,0 });
+
+	for (int i = 1; i < 5; i++)
+	{
+		
+		c_p2p_1[i] = App->physics->AddConstraintP2P(*c_chains_pb_1[i - 1], *c_chains_pb_1[i], { 0,-2.5f,0 }, { 0,2.5f,0 });
+	}
+
+
+	base_pos[0] = 60;
+	base_pos[1] = 50;
+	base_pos[2] = 0;
+
+	c_sph_2 = new Sphere(2.5f);
+	c_sph_2->SetPos(base_pos[0], base_pos[1], base_pos[2]);
+	c_base_2 = App->physics->AddBody(*c_sph_2, 0);
+
+
+	for (int i = 0; i < 5; i++)
+	{
+		c_chains_2[i] = new Sphere(2.5f);
+		c_chains_2[i]->SetPos(base_pos[0], base_pos[1] - 2.5f * i, base_pos[2]);
+		c_chains_pb_2[i] = App->physics->AddBody(*c_sph_2, 10);
+	}
+
+	c_p2p_2[0] = App->physics->AddConstraintP2P(*c_base_2, *c_chains_pb_2[0], { 0,-2.5f ,0 }, { 0,2.5f,0 });
+
+	for (int i = 1; i < 5; i++)
+	{
+
+		c_p2p_2[i] = App->physics->AddConstraintP2P(*c_chains_pb_2[i - 1], *c_chains_pb_2[i], { 0,-2.5f,0 }, { 0,2.5f,0 });
+	}
+
+
+	base_pos[0] = 20;
+	base_pos[1] = 50;
+	base_pos[2] = 40;
+
+	c_sph_3 = new Sphere(2.5f);
+	c_sph_3->SetPos(base_pos[0], base_pos[1], base_pos[2]);
+	c_base_3 = App->physics->AddBody(*c_sph_3, 0);
+
+
+	for (int i = 0; i < 5; i++)
+	{
+		c_chains_3[i] = new Sphere(2.5f);
+		c_chains_3[i]->SetPos(base_pos[0], base_pos[1] - 2.5f * i, base_pos[2]);
+		c_chains_pb_3[i] = App->physics->AddBody(*c_sph_3, 10);
+	}
+
+	c_p2p_3[0] = App->physics->AddConstraintP2P(*c_base_3, *c_chains_pb_3[0], { 0,-2.5f ,0 }, { 0,2.5f,0 });
+
+	for (int i = 1; i < 5; i++)
+	{
+
+		c_p2p_3[i] = App->physics->AddConstraintP2P(*c_chains_pb_3[i - 1], *c_chains_pb_3[i], { 0,-2.5f,0 }, { 0,2.5f,0 });
+	}
+
+
+	base_pos[0] = 60;
+	base_pos[1] = 50;
+	base_pos[2] = 40;
+
+	c_sph_4 = new Sphere(2.5f);
+	c_sph_4->SetPos(base_pos[0], base_pos[1], base_pos[2]);
+	c_base_4 = App->physics->AddBody(*c_sph_4, 0);
+
+
+	for (int i = 0; i < 5; i++)
+	{
+		c_chains_4[i] = new Sphere(2.5f);
+		c_chains_4[i]->SetPos(base_pos[0], base_pos[1] - 2.5f * i, base_pos[2]);
+		c_chains_pb_4[i] = App->physics->AddBody(*c_sph_4, 10);
+	}
+
+	c_p2p_4[0] = App->physics->AddConstraintP2P(*c_base_4, *c_chains_pb_4[0], { 0,-2.5f ,0 }, { 0,2.5f,0 });
+
+	for (int i = 1; i < 5; i++)
+	{
+
+		c_p2p_4[i] = App->physics->AddConstraintP2P(*c_chains_pb_4[i - 1], *c_chains_pb_4[i], { 0,-2.5f,0 }, { 0,2.5f,0 });
+	}
+
+	//hingeTest = App->physics->AddConstraintHinge(*testA, *testB, { 0,2,0 }, { -1,0,0 }, { 0,1,0 }, { 0,1,0 }, true);
+	//
+	//hingeTest->enableAngularMotor(true, 1, 5);
+
+	App->physics->debug = true;
 	
 	return ret;
 }
@@ -260,12 +503,29 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	
+	a += dt;
+	s_angle -= 2.5f;
+	for (size_t i = 0; i < 4; i++)
+	{
+		s1_cube_1[i]->SetRotation(s1_hinge_1[i]->getRigidBodyB().getOrientation().getAngle(), { 0,1,0 });
+		s1_cube_2[i]->SetRotation(s_angle, { 0,1,0 });
 
-	
+
+		s1_cube_base[i]->Render(); 
+		s1_cube_1[i]->Render();
+		s1_cube_2[i]->Render();
+		
+	}
+
+
 	Plane p(0, 1, 0, 0);
 	p.axis = true;
 	p.Render();
+
+	lift->SetPos(6, 15 + 14 * sinf(a * 0.5f), 180);
+	liftCube->SetPos(6, 15 + 14 * sinf(a * 0.5f), 180);
+	liftCube->Render();
+
 
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
@@ -461,29 +721,58 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	}
 }
 
-PhysBody3D* ModuleSceneIntro::CreateSceneItem(float x, float y, float z, Type type)
+PhysBody3D* ModuleSceneIntro::CreateSceneItem(float x, float y, float z, Type type, Cube* cube)
 {
-	Cube* item;
-	if (type == FLOOR)
+	if (cube != nullptr)
 	{
-		item = new Cube(16, 0.5, 60);
-	}
-	if (type == RAMP)
-	{
-		item = new Cube(16, 0.5, 30);
-	}
+		Cube* item;
 
+		if (type == FLOOR)
+		{
+			item = new Cube(16, 0.5, 60);
+		}
+		if (type == RAMP)
+		{
+			item = new Cube(16, 0.5, 30);
+		}
+
+
+		Color c;
+		c.a = 1;
+		c.r = 1;
+		c.g = 0.9;
+		c.b = 0.8;
+		item->color = c;
+		item->SetPos(x, y, z);
+		PhysBody3D* phys = App->physics->AddBody(*item, 0);
+		phys->type = type;
+		roadList.add(phys);
+		return phys;
+	}
+	else
+	{
+		if (type == FLOOR)
+		{
+			cube = new Cube(16, 0.5, 60);
+		}
+		if (type == RAMP)
+		{
+			cube = new Cube(16, 0.5, 30);
+		}
+
+
+		Color c;
+		c.a = 1;
+		c.r = 1;
+		c.g = 0.9;
+		c.b = 0.8;
+		cube->color = c;
+		cube->SetPos(x, y, z);
+		PhysBody3D* phys = App->physics->AddBody(*cube, 0);
+		phys->type = type;
+		roadList.add(phys);
+		return phys;
+	}
 	
-	Color c;
-	c.a = 1;
-	c.r = 1;
-	c.g = 0.9;
-	c.b = 0.8;
-	item->color = c;
-	item->SetPos(x, y, z);
-	PhysBody3D* phys = App->physics->AddBody(*item, 0);
-	phys->type = type;
-	roadList.add(phys);
-	return phys;
 	
 }
