@@ -93,6 +93,9 @@
     <ClInclude Include="Terrain.h">
       <Filter>Sources</Filter>
     </ClInclude>
+    <ClInclude Include="MatrixTransformations.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">

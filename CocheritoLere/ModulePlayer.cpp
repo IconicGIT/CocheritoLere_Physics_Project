@@ -4,11 +4,12 @@
 #include "Primitive.h"
 #include "PhysVehicle3D.h"
 #include "PhysBody3D.h"
+#include "MatrixTransformations.h"
 
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
 {
-	turn = acceleration = brake = 0.0f;
+	turn = acceleration = brake = pitch = 0.0f;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -33,10 +34,10 @@ bool ModulePlayer::Start()
 	car.maxSuspensionForce = 8000.0f;
 
 	// Wheel properties ---------------------------------------
-	float connection_height = 1.0f;
+	float connection_height = 0.5f;
 	float wheel_radius = 0.6f;
 	float wheel_width = 0.85f;
-	float suspensionRestLength = 1;
+	float suspensionRestLength = 0.5;
 
 	// Don't change anything below this line ------------------
 
@@ -184,6 +185,8 @@ update_status ModulePlayer::Update(float dt)
 	
 	btVector3 pos = App->player->GetPosition();
 
+	int upVector = vehicle->vehicle->getUpAxis();
+
 	//LOG("Player pos y %2.2f", pos.getY());
 	//LOG("Player pos x %2.2f", pos.getX());
 	//LOG("Player pos z %2.2f", pos.getZ());
@@ -303,7 +306,9 @@ void ModulePlayer::Movement()
 		break;
 	case ON_AIR:
 
-			// NO HACE NADA :0
+		float m[16];
+		vehicle->GetTransform(m);
+
 		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		{
 			TurnSmoother += 0.25f;
@@ -311,8 +316,8 @@ void ModulePlayer::Movement()
 				TurnSmoother = 0;
 
 			if (pitch > +TURN_DEGREES)
-				pitch += 100;
-				//pitch += TURN_DEGREES * TurnSmoother;
+				pitch += TURN_DEGREES * TurnSmoother;
+		
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 		{
@@ -321,8 +326,7 @@ void ModulePlayer::Movement()
 				TurnSmoother = 0;
 
 			if (pitch > -TURN_DEGREES)
-				pitch -= 100;
-				//pitch -= TURN_DEGREES * TurnSmoother;
+				pitch -= TURN_DEGREES * TurnSmoother;
 		}
 
 		break;
