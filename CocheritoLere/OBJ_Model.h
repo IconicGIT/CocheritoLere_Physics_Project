@@ -18,7 +18,6 @@ public:
 
 	objl::Loader model;
 	float x, y, z;
-	float rot_x, rot_y, rot_z;
 	float colR;
 	float colG;
 	float colB;

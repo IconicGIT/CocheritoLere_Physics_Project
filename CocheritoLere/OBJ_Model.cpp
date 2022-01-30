@@ -6,7 +6,6 @@
 Model::Model()
 {
 	x = y = z = 0;
-	rot_x = rot_y = rot_z = 0;
 	colR = 1;
 	colG = 1;
 	colB = 1;

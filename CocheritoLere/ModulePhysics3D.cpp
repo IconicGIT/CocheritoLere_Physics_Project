@@ -375,6 +375,28 @@ void ModulePhysics3D::AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, con
 	p2p->setDbgDrawSize(2.0f);
 }
 
+void ModulePhysics3D::AddConstraintSlider(PhysBody3D& bodyA, PhysBody3D& bodyB)
+{
+	/*btTypedConstraint* p2p = new btSliderConstraint(
+		*(bodyA.body),
+		*(bodyB.body),
+		btVector3(anchorA.x, anchorA.y, anchorA.z),
+		btVector3(anchorB.x, anchorB.y, anchorB.z));
+	world->addConstraint(p2p);
+	constraints.add(p2p);
+	p2p->setDbgDrawSize(2.0f);*/
+
+	btTypedConstraint* slider = new btSliderConstraint(
+		 *(bodyA.body),
+		 *(bodyA.body),
+		 (bodyA.body->getWorldTransform()),
+		 (bodyB.body->getWorldTransform()),
+		 true);
+	world->addConstraint(slider);
+	constraints.add(slider);
+	slider->setDbgDrawSize(2.0f);
+}
+
 void ModulePhysics3D::AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB, const vec3& axisA, const vec3& axisB, bool disable_collision)
 {
 	btHingeConstraint* hinge = new btHingeConstraint(

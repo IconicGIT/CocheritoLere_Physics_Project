@@ -47,29 +47,50 @@ bool ModuleSceneIntro::Start()
 	topPole->SetPos(0, 10, 0);
 	App->physics->AddBody(*topPole, 0);
 
+	//test slider
+	testA = new Cube(20, 3, 1);
+	testA->color = c;
+	testA->SetPos(0, 10, 0);
+	App->physics->AddBody(*testA, 0);
+
+
 	//Road Panels:
 	//1
 	CreateSceneItem(0, 1, 20, Type::FLOOR);
 	//2
-	roadPtr = CreateSceneItem(22, 1, 57, Type::FLOOR);
+	roadPtr = CreateSceneItem(22, 1, 58, Type::FLOOR);
 	btTransform transform = roadPtr->GetBody()->getWorldTransform();
 	transform.setRotation({ 0.707107, 0, 0.707107, 0 });
 	roadPtr->GetBody()->setWorldTransform(transform);
 	roadPtr->prim->SetRotation(90, { 0,1,0 });
 	//3
-	roadPtr = CreateSceneItem(80, 1, 57, Type::FLOOR);
+	roadPtr = CreateSceneItem(80, 1, 58, Type::FLOOR);
 	transform = roadPtr->GetBody()->getWorldTransform();
 	transform.setRotation({ 0.707107, 0, 0.707107, 0 });
 	roadPtr->GetBody()->setWorldTransform(transform);
 	roadPtr->prim->SetRotation(90, { 0,1,0 });
 	//4
-	CreateSceneItem(110, 1, 79, Type::FLOOR);
+	CreateSceneItem(110, 1, 80, Type::FLOOR);
+	//4.1
+	CreateSceneItem(110, 1, 140, Type::FLOOR);
+	//4.2
+	CreateSceneItem(110, 1, 200, Type::FLOOR);
+
+
+
 	//5
-	roadPtr = CreateSceneItem(88, 1, 115, Type::FLOOR);
+	roadPtr = CreateSceneItem(88, 1, 230, Type::FLOOR);
 	transform = roadPtr->GetBody()->getWorldTransform();
 	transform.setRotation({ 0.707107, 0, 0.707107, 0 });
 	roadPtr->GetBody()->setWorldTransform(transform);
 	roadPtr->prim->SetRotation(90, { 0,1,0 });
+	
+	//5.1
+	CreateSceneItem(66, 1, 200 - 2, Type::FLOOR);
+
+	//5.2
+	CreateSceneItem(66, 1, 140 - 2, Type::FLOOR);
+	
 	//6
 	roadPtr = CreateSceneItem(66, 5, 95, Type::RAMP);
 	transform = roadPtr->GetBody()->getWorldTransform();
@@ -153,10 +174,11 @@ bool ModuleSceneIntro::Start()
 	cubes[2] = new Cube(5, 150, 250);
 	cubes[2]->SetPos(125, 75, 30);
 	cubes[3] = new Cube(150, 150, 5);
-	cubes[3]->SetPos(50, 75, 150);
-	cubes[4] = new Cube(150, 1, 250);
+	cubes[3]->SetPos(50, 75, 300);
+	cubes[4] = new Cube(150, 1, 750);
 	cubes[4]->SetPos(50, 0, 30);
 	cubes[4]->color = cubeColor;
+
 
 	App->audio->PlayMusic("Assets/Audio/Music/song1.ogg");
 	

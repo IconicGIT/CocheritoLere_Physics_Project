@@ -54,6 +54,8 @@ public:
 	PhysBody3D* obstacle;
 	PhysBody3D* roadPtr;
 
+	Cube* testA;
+	Cube* testB;
 	Cube* leftPole;
 	Cube* rightPole;
 	Cube* topPole;
