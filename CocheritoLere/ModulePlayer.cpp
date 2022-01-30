@@ -117,6 +117,9 @@ bool ModulePlayer::Start()
 	carModel->colB = 0;
 	carModel->scale = 2;
 	vehicle->GetTransform(initialM);
+
+	state = ON_GROUND;
+
 	return true;
 }
 
@@ -129,6 +132,7 @@ bool ModulePlayer::CleanUp()
 
 	return true;
 }
+
 update_status ModulePlayer::PreUpdate(float dt)
 {
 	position.x = GetPosition().getX();
@@ -145,6 +149,7 @@ update_status ModulePlayer::PreUpdate(float dt)
 	vehicle->GetTransform(m);
 	hitBox->SetTransform(m);
 	deltaPosition = position - lastPosition;
+
 	//float deltaPos = sqrt((deltaPosition.x * deltaPosition.x) + (deltaPosition.y * deltaPosition.y) + (deltaPosition.z * deltaPosition.z));
 	/*if (deltaPos > 0.2f)
 	{
@@ -152,16 +157,14 @@ update_status ModulePlayer::PreUpdate(float dt)
 		carModel->y = position.y - 0.4;
 		carModel->z = position.z;
 	}*/
+
 	carModel->x = position.x;
 	carModel->y = position.y - 0.4;
 	carModel->z = position.z;
 
-	turn = acceleration = brake = 0.0f;
+	turn = acceleration = brake  = pitch = 0.0f;
 
 	Movement();
-
-
-
 
 	forwardVec = vehicle->vehicle->getForwardVector();
 
@@ -175,14 +178,18 @@ update_status ModulePlayer::Update(float dt)
 	counter = SDL_GetTicks();
 	
 	vehicle->ApplyEngineForce(acceleration);
+	vehicle->Pitch(pitch);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
 	
 	btVector3 pos = App->player->GetPosition();
+
 	//LOG("Player pos y %2.2f", pos.getY());
 	//LOG("Player pos x %2.2f", pos.getX());
 	//LOG("Player pos z %2.2f", pos.getZ());
+
 	if (((pos.getX() < 115) && (pos.getX() > 105)) && ((pos.getZ() < 85) && (pos.getZ() > 75))) checkpointPassed = true;
+	
 	if ((pos.getY() < 1)||(App->input->GetKey(SDL_SCANCODE_0)==KEY_DOWN) || (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN))
 	{
 		lifes--;
@@ -225,7 +232,7 @@ update_status ModulePlayer::Update(float dt)
 update_status ModulePlayer::PostUpdate(float dt)
 {
 	lastPosition = position;
-	carModel->RenderModel();
+	//carModel->RenderModel();
 	
 	return UPDATE_CONTINUE;
 }
@@ -240,40 +247,83 @@ btVector3 ModulePlayer::GetPosition()
 
 void ModulePlayer::Movement()
 {
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	switch (state)
 	{
-		if (vehicle->GetKmh() < maxVelocity)
+	case ON_GROUND:
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		{
-			acceleration = MAX_ACCELERATION;
+			if (vehicle->GetKmh() < maxVelocity)
+			{
+				acceleration = MAX_ACCELERATION;
+
+			}
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_IDLE)
+		{
+			brake = 0.1f * BRAKE_POWER;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		{
+			TurnSmoother += 0.1f;
+			if (TurnSmoother > 1)
+				TurnSmoother = 1;
+
+			if (turn < TURN_DEGREES)
+				turn += TURN_DEGREES * TurnSmoother;
 
 		}
-	}
-	else if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_IDLE)
-	{
-		brake = 0.1f * BRAKE_POWER;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-	{
-		if (turn < TURN_DEGREES)
-			turn += TURN_DEGREES;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-	{
-		if (turn > -TURN_DEGREES)
-			turn -= TURN_DEGREES;
-
-
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-	{
-		if (vehicle->GetKmh() <= 0.1f)
+		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		{
-			if (vehicle->GetKmh() > -maxVelocity / 2) acceleration = -MAX_ACCELERATION / 2;
+			TurnSmoother += 0.1f;
+			if (TurnSmoother > 1)
+				TurnSmoother = 1;
+
+			if (turn > -TURN_DEGREES)
+				turn -= TURN_DEGREES * TurnSmoother;
+
 		}
-		else brake = BRAKE_POWER;
+		else {
+			TurnSmoother = 0;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		{
+			if (vehicle->GetKmh() <= 0.1f)
+			{
+				if (vehicle->GetKmh() > -maxVelocity / 2) acceleration = -MAX_ACCELERATION / 2;
+			}
+			else brake = BRAKE_POWER;
+		}
+		break;
+	case ON_AIR:
+
+			// NO HACE NADA :0
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		{
+			TurnSmoother += 0.25f;
+			if (TurnSmoother > 1)
+				TurnSmoother = 0;
+
+			if (pitch > +TURN_DEGREES)
+				pitch += 100;
+				//pitch += TURN_DEGREES * TurnSmoother;
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		{
+			TurnSmoother += 0.25f;
+			if (TurnSmoother > 1)
+				TurnSmoother = 0;
+
+			if (pitch > -TURN_DEGREES)
+				pitch -= 100;
+				//pitch -= TURN_DEGREES * TurnSmoother;
+		}
+
+		break;
+	case FLIPPED:
+		break;
 	}
+	
 }
 

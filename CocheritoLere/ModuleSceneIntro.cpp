@@ -1,5 +1,6 @@
 #include "Globals.h"
 #include "Application.h"
+#include "ModulePlayer.h"
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
@@ -163,6 +164,7 @@ bool ModuleSceneIntro::Start()
 	//tracks = App->modelLoader->LoadModel("Assets/Models/tracks.obj");
 	//train = App->modelLoader->LoadModel("Assets/Models/full_train.obj");
 	//mod_car = App->modelLoader->LoadModel("Assets/Models/car_1.obj");
+
 	Color cubeColor;
 	cubeColor.r = 0.0f;
 	cubeColor.g = 0.5f;
@@ -389,12 +391,31 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		switch (body2->type)
 		{
 		case SPHERE:
-			LOG("Player touched sphere uwu");
-			break;
+		{
+			LOG("Player touched sphere uwu"); 
+		}
+		break;
+		case FLOOR:
+		{
+					
+		}
+		break;
 		default:
 			break;
 		}
 	}
+
+	if (body1->type == PLAYER &&( body2->type == FLOOR || body2->type == RAMP))
+	{
+		App->player->state = ON_GROUND;
+		LOG("On Ground");
+	}
+	else {
+		App->player->state = ON_AIR;
+		LOG("On Air");
+	}
+
+
 	if (body1->type == SPHERE && body2->type == SPHERE) {
 		LOG("Balls Touching");
 	}

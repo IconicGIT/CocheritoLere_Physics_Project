@@ -89,6 +89,13 @@ void PhysVehicle3D::Turn(float degrees)
 }
 
 // ----------------------------------------------------------------------------
+void PhysVehicle3D::Pitch(float degrees)
+{
+///	btScalar pitch = degrees;
+	vehicle->setPitchControl(degrees);
+}
+
+// ----------------------------------------------------------------------------
 float PhysVehicle3D::GetKmh() const
 {
 	return vehicle->getCurrentSpeedKmHour();

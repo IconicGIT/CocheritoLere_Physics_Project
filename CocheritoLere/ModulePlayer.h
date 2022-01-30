@@ -7,13 +7,15 @@
 struct PhysVehicle3D;
 class Model;
 
-#define MAX_ACCELERATION 1000.0f
-#define TURN_DEGREES 20.0f * DEGTORAD
-#define BRAKE_POWER 25.0f
+#define MAX_ACCELERATION 1500.0f
+#define TURN_DEGREES 25.0f * DEGTORAD
+#define BRAKE_POWER 35.0f
 #define MAX_LIFES 3
 
 enum PlayerState {
-
+	ON_GROUND,
+	ON_AIR,
+	FLIPPED
 };
 
 class ModulePlayer : public Module
@@ -43,6 +45,7 @@ public:
 	float acceleration;
 	float maxVelocity = 100.0f;
 	float brake;
+	float pitch;
 	float initialM[16];
 	vec3 lastPosition;
 	vec3 position;
@@ -54,7 +57,10 @@ public:
 	bool checkpointPassed = false;
 	bool podium = false;
 	
+	float TurnSmoother = 0;
 
 
 	PhysBody3D* hitBox = nullptr;
+
+	PlayerState state;
 };
