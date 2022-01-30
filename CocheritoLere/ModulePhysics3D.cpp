@@ -112,9 +112,11 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 // ---------------------------------------------------------
 update_status ModulePhysics3D::Update(float dt)
 {
-	
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN) App->player->vehicle->SetPos(66, 45, 205);
 	btVector3 pos = App->player->GetPosition();
-	if ((pos.getY() > 8) && !LiftActive)
+	LOG("PLAYER Z: %2.2f", pos.getZ());
+	LOG("PLAYER Y: %2.2f", pos.getY());
+	if ((((pos.getY() > 8)&&(pos.getZ() < 95))||((pos.getY()>29 )&& (pos.getZ() <90)))&& !LiftActive)
 	{
 
 		float density = 1.225; //density of the air
@@ -137,7 +139,7 @@ update_status ModulePhysics3D::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;
 	
-	
+	if(App->player->podium==true) App->player->vehicle->GetBody()->forceActivationState(false);
 	//world->setGravity(GRAVITY + LIFT);
 	if(debug == true)
 	{

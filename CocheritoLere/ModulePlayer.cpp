@@ -185,6 +185,7 @@ update_status ModulePlayer::Update(float dt)
 	if (((pos.getX() < 115) && (pos.getX() > 105)) && ((pos.getZ() < 85) && (pos.getZ() > 75))) checkpointPassed = true;
 	if ((pos.getY() < 1)||(App->input->GetKey(SDL_SCANCODE_0)==KEY_DOWN) || (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN))
 	{
+		lastTime = counter + 1000;
 		lifes--;
 		score = 0;
 		vehicle->GetBody()->forceActivationState(false);
@@ -193,9 +194,13 @@ update_status ModulePlayer::Update(float dt)
 		else vehicle->SetPos(111, 5, 80);
 		podium = false;
 		
-		lastTime = counter + 100;
+		
 	}
-	if((counter>lastTime)&&(podium==false)) vehicle->GetBody()->forceActivationState(true);
+	if ((counter > lastTime) && (podium == false))
+	{
+		vehicle->GetBody()->forceActivationState(true);
+	}
+		
 	char title[80];
 	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
 	App->window->SetTitle(title);
