@@ -489,6 +489,7 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
+
 	delete leftPole;
 	delete rightPole;
 	delete topPole;

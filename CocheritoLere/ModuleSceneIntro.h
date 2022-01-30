@@ -92,12 +92,6 @@ public:
 	PhysBody3D* horse;*/
 	p2List<PhysBody3D*> roadList;
 
-	PhysBody3D* testA;
-	PhysBody3D* testB;
-	Cube* cubeA;
-	Cube* cubeB;
-
-	btHingeConstraint* hingeTest = nullptr;
 
 	//lift
 	PhysBody3D* lift;
