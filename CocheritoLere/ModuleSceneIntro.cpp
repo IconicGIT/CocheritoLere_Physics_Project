@@ -233,11 +233,11 @@ bool ModuleSceneIntro::Start()
 	cubeColor.r = 0.0f;
 	cubeColor.g = 0.5f;
 	cubeColor.b = 1.0f;
-	cubes[0] = new Cube(5, 150, 250);
+	cubes[0] = new Cube(5, 150, 750);
 	cubes[0]->SetPos(-20, 75, 30);
 	cubes[1] = new Cube(150, 150, 5);
 	cubes[1]->SetPos(50, 75, -95);
-	cubes[2] = new Cube(5, 150, 250);
+	cubes[2] = new Cube(5, 150, 750);
 	cubes[2]->SetPos(125, 75, 30);
 	cubes[3] = new Cube(150, 150, 5);
 	cubes[3]->SetPos(50, 75, 300);
@@ -246,7 +246,7 @@ bool ModuleSceneIntro::Start()
 	cubes[4]->color = cubeColor;
 
 
-	App->audio->PlayMusic("Assets/Audio/Music/song2.ogg");
+	App->audio->PlayMusic("Assets/Audio/Music/song1.ogg");
 	
 	//podium 
 	podium[0] = new Cube(8, 4, 4);
